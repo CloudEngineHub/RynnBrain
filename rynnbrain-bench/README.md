@@ -9,7 +9,7 @@
 We introduce **RynnBrain-Bench**, a high-dimensional evaluation suite designed to holistically benchmark the cognition and localization capabilities of embodied understanding models in complex household environments.
 Advancing beyond existing benchmarks, RynnBrain-Bench features a unique emphasis on fine-grained understanding and precise spatiotemporal localization within episodic video sequences.
 
-RynnBrain-Bench systematically measures spatiotemporal embodied understanding across four foundational pillars: *Object Cognition*, *Spatial Cognition*, *Grounding*, and *Pointing*. Covering 21 specialized sub-capabilities ranging from detailed object attributes to affordance points prediction, the benchmark comprises 3,616 video clips and 8,000 meticulously curated open-ended questions, serving as a rigorous evaluation ground for next-generation multimodal models.
+RynnBrain-Bench systematically measures spatiotemporal embodied understanding across four foundational pillars: *Object Cognition*, *Spatial Cognition*, *Grounding*, and *Pointing*. Covering 21 specialized sub-capabilities ranging from detailed object attributes to affordance points prediction, the benchmark comprises 3,616 video clips and 12,000 meticulously curated open-ended questions, serving as a rigorous evaluation ground for next-generation multimodal models.
 
 <p align="center">
 <img src="../cookbooks/assets/RynnBrain-Bench.png" style="width: 80%; height: auto;">
