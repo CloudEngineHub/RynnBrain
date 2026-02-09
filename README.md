@@ -15,11 +15,11 @@ Rynnbrain is available in two dense variants (2B and 8B) and one mixture-of-expe
 In addition, we release three post‑trained models: RynnBrain‑Plan, RynnBrain‑Nav, and RynnBrain‑CoP. 
 <!-- RynnBrain‑Plan demonstrates the effectiveness of the fine‑grained manipulation‑planning paradigm that alternates between textual reasoning and localization. -->
 <!-- RynnBrain‑Nav verifies that using RynnBrain as the foundation model can substantially enhance the performance ceiling of various embodied task models.  -->
-<!-- Brain-cot incorporates an interleaved reasoning mechanism that alternates between textual reasoning and spatial grounding, endowing it with physical-space reasoning capabilities.  -->
+<!-- Brain-CoP incorporates an interleaved reasoning mechanism that alternates between textual reasoning and spatial grounding, endowing it with physical-space reasoning capabilities.  -->
 
 ### 🌟 Key Highlights
 * **Comprehensive egocentric understanding**: 
-Excels in spatial comprehension and egocentric cognition, encompassing tasks such as embodied QA, egocentric counting, and OCR.
+Excels in spatial comprehension and egocentric cognition, encompassing tasks such as embodied QA, counting, and OCR.
 * **Diverse spatiotemporal localization**: 
 Possesses powerful physical-space localization capabilities, enabling it to locate objects, identify target areas, and predict trajectories across its entire episodic memory.
 * **Physical-space reasoning**: 
@@ -72,7 +72,11 @@ By systematically training on rich spatiotemporal, physical-space, and general k
 | RynnBrain-2B  | Qwen3-VL-2B-Instruct | [Link](https://huggingface.co/Alibaba-DAMO-Academy/RynnBrain-2B)    | [Link](https://www.modelscope.cn/models/DAMO_Academy/RynnBrain-2B)   |
 | RynnBrain-8B  | Qwen3-VL-8B-Instruct | [Link](https://huggingface.co/Alibaba-DAMO-Academy/RynnBrain-8B)    | [Link](https://www.modelscope.cn/models/DAMO_Academy/RynnBrain-8B)   |
 | RynnBrain-30B-A3B  | Qwen3-VL-30B-A3B-Instruct | [Link](https://huggingface.co/Alibaba-DAMO-Academy/RynnBrain-30B-A3B)    | [Link](https://www.modelscope.cn/models/DAMO_Academy/RynnBrain-30B-A3B)   |
+<<<<<<< Updated upstream
 | RynnBrain‑CoP-8B | RynnBrain-8B         | [Link](https://huggingface.co/Alibaba-DAMO-Academy/RynnBrain-Cot-8B)    | [Link](https://www.modelscope.cn/models/DAMO_Academy/RynnBrain-Cot-8B)   |
+=======
+| RynnBrain‑CoP-8B | RynnBrain-8B         | [Link](https://huggingface.co/Alibaba-DAMO-Academy/RynnBrain-CoP-8B)    | [Link](https://www.modelscope.cn/models/DAMO_Academy/RynnBrain-CoP-8B)   |
+>>>>>>> Stashed changes
 | RynnBrain‑Plan-8B | RynnBrain-8B        | [Link](https://huggingface.co/Alibaba-DAMO-Academy/RynnBrain-Plan-8B)    | [Link](https://www.modelscope.cn/models/DAMO_Academy/RynnBrain-Plan-8B)   |
 | RynnBrain‑Plan-30B-A3B | RynnBrain-30B-A3B        | [Link](https://huggingface.co/Alibaba-DAMO-Academy/RynnBrain-Plan-30B-A3B)    | [Link](https://www.modelscope.cn/models/DAMO_Academy/RynnBrain-Plan-30B-A3B)   |
 | RynnBrain‑Nav-8B | RynnBrain-8B        | [Link](https://huggingface.co/Alibaba-DAMO-Academy/RynnBrain-Nav-8B)    | [Link](https://www.modelscope.cn/models/DAMO_Academy/RynnBrain-Nav-8B)   |
