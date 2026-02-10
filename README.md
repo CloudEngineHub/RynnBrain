@@ -54,7 +54,7 @@ By systematically training on rich spatio-temporal, physical-space, and general 
 - Manipulate Planning
 
 <p align="center">
-<img src="./cookbooks/assets/task_planning/performance.jpg" style="width: 80%; height: auto;">
+<img src="https://alibaba-damo-academy.github.io/RynnBrain.github.io/assets/plan_results.png" style="width: 80%; height: auto;">
 </p>
 
 - Navigation
