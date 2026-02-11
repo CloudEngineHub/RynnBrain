@@ -24,7 +24,7 @@ Object Cognition challenges models with fine-grained perception and object count
 ### *2. Spatial Cognition*
 Spatial cognition requires MLLMs to derive 3D spatial awareness from ego-centric video streams, spanning two primary perspectives: Ego-centric and World-centric. While ego-centric cognition examines the model's evolving relationship with its environment over time, world-centric cognition evaluates the comprehension of objective 3D layouts and physical properties, such as scale, distance, and position.
 
-*Evaluation Metrics:*  (1) Neumerical Questions: Mean Relative Accuracy (MRA) and Rotational Accuracy (RoA) (2)Textual Questions: Binary or fine-grained scores from GPT-4o.
+*Evaluation Metrics:*  (1) Numerical Questions: Mean Relative Accuracy (MRA) and Rotational Accuracy (RoA) (2)Textual Questions: Binary or fine-grained scores from GPT-4o.
 ### *3. Grounding*
 Grounding evaluates the capability for precise spatiotemporal localization, representing a key link for anchoring understanding in reality. This task requires the brain model to (1) pinpoint the critical temporal keyframe and then (2) predict the object's spatial coordinates within that frame. We distinguish between Direct Grounding, which involves locating objects based on explicit descriptions, and Situational Grounding, which necessitates context-aware reasoning to identify and localize targets within complex scenarios.
 
@@ -34,7 +34,7 @@ The Pointing task aims to predict target areas, spatio-temporal trajectories, or
 
 *Evaluation Metrics:* (1) Area: Proportion of prediction points falling within the target area (2) Affordance: Euclidean distance (3) Trajectory: Discrete Fréchet Distance (DFD)
 
-## Leaderborad
+## Leaderboard
 
 ---
 | Model | Object Cognition | Spatial Cognition | Grounding | Area | Affordance | Trajectory |
@@ -43,14 +43,14 @@ The Pointing task aims to predict target areas, spatio-temporal trajectories, or
 | Cosmos-reason2-8B | 37.2 | 31.4| 60.0 | 37.6 | 83.9 | 64.0 |
 | RoboBrain-2.0-7B |24.7 | 13.5 | 18.6 | 38.0 | 73.5 | 57.6 |
 | Pelican-VL-7B | 30.8 | 20.5 | 3.5 | 46.5 | 81.4 | 59.2 |
-| MiMo-Embodied-7B | 39.0 | 28.3 | 49.8 | 49.4 | 84,4 | 61.3 |
+| MiMo-Embodied-7B | 39.0 | 28.3 | 49.8 | 49.4 | 84.4 | 61.3 |
 | **RynnBrain-2B** | **70.7** | **57.2** | **79.1** | **54.6** | **89.4** | **66.6** |
 | **RynnBrain-8B** | **71.2** | **59.9** | **81.6** | **56.2** | **90.4** | **64.5** |
 ---
 | Model | Object Cognition | Spatial Cognition | Grounding | Area | Affordance | Trajectory |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: |
 | GPT-5.2 | 55.0 | 36.4 | 14.9 | 33.9 | 83.1 | 70.4 |
-| Genimi-3 Pro | 58.4 | 38.5 | 62.1 | 61.5 | 86.0 | 72.0 |
+| Gemini-3 Pro | 58.4 | 38.5 | 62.1 | 61.5 | 86.0 | 72.0 |
 | Claude Sonnet 4.5 | 25.1 | 34.2 | 0.0 | 10.1 | 38.7 | 54.6 |
 | Qwen3-VL-30B-A3B | 42.6 | 30.7 | 76.4 | 30.9 | 86.2 | 61.2 |
 | RoboBrain-2.0-30B | 26.2 | 11.6 | 0.0 | 45.3 | 76.1 | 60.3 |
