@@ -3,18 +3,18 @@
 <img src="./cookbooks/assets/logo.png" style="width: 50%; height: auto;">
 </p>
 <p align="center">
-       💫 <a href="https://alibaba-damo-academy.github.io/RynnBrain.github.io/"><b>Project Page</b></a>&nbsp&nbsp | &nbsp&nbsp Models <a href ="https://huggingface.co/collections/Alibaba-DAMO-Academy/rynnbrain"><b> 🤗</b></a> <a href = "https://www.modelscope.cn/collections/DAMO_Academy/RynnBrain"><b>🤖</b></a>  &nbsp;|&nbsp; 🚀 <a href="https://huggingface.co/spaces/Alibaba-DAMO-Academy/RynnBrain"><b>Demo</b></a> &nbsp&nbsp | &nbsp&nbsp📚 <a href="https://github.com/alibaba-damo-academy/RynnBrain/tree/main/cookbooks">Cookbooks</a>&nbsp&nbsp
+       💫 <a href="https://alibaba-damo-academy.github.io/RynnBrain.github.io/"><b>Project Page</b></a>&nbsp;&nbsp; | &nbsp;&nbsp; Models & Bench <a href ="https://huggingface.co/collections/Alibaba-DAMO-Academy/rynnbrain"><b> 🤗</b></a> <a href = "https://www.modelscope.cn/collections/DAMO_Academy/RynnBrain"><b>🤖</b></a>  &nbsp;|&nbsp; 🚀 <a href="https://huggingface.co/spaces/Alibaba-DAMO-Academy/RynnBrain"><b>Demo</b></a> &nbsp;&nbsp; | &nbsp;&nbsp;📚 <a href="https://github.com/alibaba-damo-academy/RynnBrain/tree/main/cookbooks">Cookbooks</a>&nbsp;&nbsp;
 </p>
 
 
 ## 📰 News
 
-* **[2026.02.09]**  🔥🔥 Release our code and model checkpoints ！！
+* **[2026.02.09]**  🔥🔥 Release our code and model checkpoints!!
 
 
 
 ## Introduction
-We present **RynnBrain**, an embodied foundation model grounded in physical reality. Rynnbrain is available in two dense variants (2B and 8B) and one mixture-of-experts (MoE) model (30B-A3B). 
+We present **RynnBrain**, an embodied foundation model grounded in physical reality. RynnBrain is available in two dense variants (2B and 8B) and one mixture-of-experts (MoE) model (30B-A3B). 
 In addition, we release three post‑trained models: RynnBrain‑Plan (**robot task planning**), RynnBrain‑Nav (**vision-language navigation**), and RynnBrain‑CoP (**chain-of-point reasoning**). 
 <!-- RynnBrain‑Plan demonstrates the effectiveness of the fine‑grained manipulation‑planning paradigm that alternates between textual reasoning and localization. -->
 <!-- RynnBrain‑Nav verifies that using RynnBrain as the foundation model can substantially enhance the performance ceiling of various embodied task models.  -->
@@ -75,7 +75,7 @@ Through massive training on rich spatio-temporal, physical-space, and general kn
 
 ## Model Zoo
 
-| Model            | Base Model           | Huggingface | Modelscope |
+| Model            | Base Model           | HuggingFace | ModelScope |
 | :--------------- | :------------------- | :---------: | :--------: |
 | RynnBrain-2B  | Qwen3-VL-2B-Instruct | [Link](https://huggingface.co/Alibaba-DAMO-Academy/RynnBrain-2B)    | [Link](https://www.modelscope.cn/models/DAMO_Academy/RynnBrain-2B)   |
 | RynnBrain-8B  | Qwen3-VL-8B-Instruct | [Link](https://huggingface.co/Alibaba-DAMO-Academy/RynnBrain-8B)    | [Link](https://www.modelscope.cn/models/DAMO_Academy/RynnBrain-8B)   |
@@ -108,14 +108,14 @@ Checkout the [cookbooks](./cookbooks) that showcase RynnBrain's capabilities in 
 
 | Category             | Cookbook name                                                                                   | Description |
 |----------------------|--------------------------------------------------------------------------------------------------|-------------|
-| Cognition            | [1_spatial_understanding.ipynb](./cookbooks/1_spatial_understanding.ipynb)                     | Shows the ability of model for spaital understanding in the video scene. |
+| Cognition            | [1_spatial_understanding.ipynb](./cookbooks/1_spatial_understanding.ipynb)                     | Shows the model's ability for spatial understanding in the video scene. |
 | Cognition            | [2_object_understanding.ipynb](./cookbooks/2_object_understanding.ipynb)                       | Shows how the model understands object categories, attributes, and relations and counting ability. |
 | Cognition            | [3_ocr.ipynb](./cookbooks/3_ocr.ipynb)                                                         | Examples of optical character recognition and text understanding in videos. |
 | Location             | [4_object_location.ipynb](./cookbooks/4_object_location.ipynb)                                 | Locates specific objects with bounding boxes in an image or video based on instructions. |
 | Location             | [5_area_location.ipynb](./cookbooks/5_area_location.ipynb)                                     | Identifies and marks specified regions by points in an image or video. |
-| Location             | [6_affordance_location.ipynb](./cookbooks/6_affordance_location.ipynb)                         | Finds areas or objects with specific affordances in an image of video. |
+| Location             | [6_affordance_location.ipynb](./cookbooks/6_affordance_location.ipynb)                         | Finds areas or objects with specific affordances in an image or video. |
 | Location             | [7_trajectory_location.ipynb](./cookbooks/7_trajectory_location.ipynb)                         | Infers and annotates trajectories or motion paths in an image or video. |
-| Location             | [8_grasp_pose.ipynb](./cookbooks/8_grasp_pose.ipynb)                                           | Present the model's abiltiy to predict robotic grasp poses from images. |
+| Location             | [8_grasp_pose.ipynb](./cookbooks/8_grasp_pose.ipynb)                                           | Presents the model's ability to predict robotic grasp poses from images. |
 | Reasoning            | [9_thinking_with_time_space.ipynb](./cookbooks/9_thinking_with_time_space.ipynb)               | Explores an interleaved reasoning mechanism that alternates between textual reasoning and spatial grounding. |
 | Planning | [10_manipulate_planning.ipynb](./cookbooks/10_manipulate_planning.ipynb)                                     | Performs multi-step task decomposition and action planning from goals and scenes. |
 | Planning | [11_visual_language_navigation.ipynb](./cookbooks/11_visual_language_navigation.ipynb)         | Combines vision and language instructions to perform navigation and path planning. |
@@ -172,7 +172,7 @@ For details, please refer to [RynnBrain-Bench](./rynnbrain-bench/README.md).
 > RynnBot Team <br>
 [![github](https://img.shields.io/badge/-Github-black?logo=github)](https://github.com/alibaba-damo-academy/RynnRCP)  [![github](https://img.shields.io/github/stars/alibaba-damo-academy/RynnRCP.svg?style=social)](https://github.com/alibaba-damo-academy/RynnRCP)  <br>
 
-> [**RynnMotion: All-In-One Tookit for Fast Robot Prototyping and Heterogeneous Teleoperation**](https://github.com/alibaba-damo-academy/RynnMotion) <br>
+> [**RynnMotion: All-In-One Toolkit for Fast Robot Prototyping and Heterogeneous Teleoperation**](https://github.com/alibaba-damo-academy/RynnMotion) <br>
 > RynnBot Team <br>
 [![github](https://img.shields.io/badge/-Github-black?logo=github)](https://github.com/alibaba-damo-academy/RynnMotion)  [![github](https://img.shields.io/github/stars/alibaba-damo-academy/RynnMotion.svg?style=social)](https://github.com/alibaba-damo-academy/RynnMotion)  <br>
 
