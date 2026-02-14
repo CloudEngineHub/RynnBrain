@@ -8,7 +8,7 @@
 
 
 ## 📰 News
-* **[2026.02.15]**  🔥🔥 Release our <a href="https://raw.githubusercontent.com/alibaba-damo-academy/RynnBrain/main/RynnBrain_Report.pdf">Technical Report</a> !!
+* **[2026.02.15]**  🔥🔥 Release our <a href="https://alibaba-damo-academy.github.io/RynnBrain.github.io/assets/RynnBrain_Report.pdf">Technical Report</a> !!
 * **[2026.02.09]**  🔥🔥 Release our code and model checkpoints!!
 
 
