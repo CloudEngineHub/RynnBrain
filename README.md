@@ -3,7 +3,7 @@
 <img src="./cookbooks/assets/logo.png" style="width: 50%; height: auto;">
 </p>
 <p align="center">
-       💫 <a href="https://alibaba-damo-academy.github.io/RynnBrain.github.io/"><b>Project Page</b></a>&nbsp;&nbsp; | &nbsp;&nbsp; 🤗 <a href ="https://huggingface.co/collections/Alibaba-DAMO-Academy/rynnbrain"><b> Huggingface </b></a> &nbsp;&nbsp; | &nbsp;&nbsp; 🤖 <a href = "https://www.modelscope.cn/collections/DAMO_Academy/RynnBrain"><b> ModelScope</b></a>  &nbsp;|&nbsp; 🚀 <a href="https://huggingface.co/spaces/Alibaba-DAMO-Academy/RynnBrain"><b>Demo</b></a> &nbsp;&nbsp; | &nbsp;&nbsp;📚 <a href="https://github.com/alibaba-damo-academy/RynnBrain/tree/main/cookbooks">Cookbooks</a>&nbsp;&nbsp;
+       💫 <a href="https://alibaba-damo-academy.github.io/RynnBrain.github.io/"><b>Project Page</b></a>&nbsp;&nbsp; | &nbsp;&nbsp; 🤗 <a href ="https://huggingface.co/collections/Alibaba-DAMO-Academy/rynnbrain"><b> Hugging Face </b></a> &nbsp;&nbsp; | &nbsp;&nbsp; 🤖 <a href = "https://www.modelscope.cn/collections/DAMO_Academy/RynnBrain"><b> ModelScope</b></a>  &nbsp;|&nbsp; 🚀 <a href="https://huggingface.co/spaces/Alibaba-DAMO-Academy/RynnBrain"><b>Demo</b></a> &nbsp;&nbsp; | &nbsp;&nbsp;📚 <a href="https://github.com/alibaba-damo-academy/RynnBrain/tree/main/cookbooks">Cookbooks</a>&nbsp;&nbsp;
 </p>
 
 
