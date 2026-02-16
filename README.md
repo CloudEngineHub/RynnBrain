@@ -3,7 +3,7 @@
 <img src="./cookbooks/assets/logo.png" style="width: 50%; height: auto;">
 </p>
 <p align="center">
-       💫 <a href="https://alibaba-damo-academy.github.io/RynnBrain.github.io/"><b>Project Page</b></a>&nbsp;&nbsp; | &nbsp;&nbsp; Models & Bench <a href ="https://huggingface.co/collections/Alibaba-DAMO-Academy/rynnbrain"><b> 🤗</b></a> <a href = "https://www.modelscope.cn/collections/DAMO_Academy/RynnBrain"><b>🤖</b></a>  &nbsp;|&nbsp; 🚀 <a href="https://huggingface.co/spaces/Alibaba-DAMO-Academy/RynnBrain"><b>Demo</b></a> &nbsp;&nbsp; | &nbsp;&nbsp;📚 <a href="https://github.com/alibaba-damo-academy/RynnBrain/tree/main/cookbooks">Cookbooks</a>&nbsp;&nbsp;
+       💫 <a href="https://alibaba-damo-academy.github.io/RynnBrain.github.io/"><b>Project Page</b></a>&nbsp;&nbsp; | &nbsp;&nbsp; 🤗 <a href ="https://huggingface.co/collections/Alibaba-DAMO-Academy/rynnbrain"><b> Huggingface </b></a> &nbsp;&nbsp; | &nbsp;&nbsp; 🤖 <a href = "https://www.modelscope.cn/collections/DAMO_Academy/RynnBrain"><b> ModelScope</b></a>  &nbsp;|&nbsp; 🚀 <a href="https://huggingface.co/spaces/Alibaba-DAMO-Academy/RynnBrain"><b>Demo</b></a> &nbsp;&nbsp; | &nbsp;&nbsp;📚 <a href="https://github.com/alibaba-damo-academy/RynnBrain/tree/main/cookbooks">Cookbooks</a>&nbsp;&nbsp;
 </p>
 
 
@@ -60,17 +60,11 @@ Through massive training on rich spatio-temporal, physical-space, and general kn
 <img src="https://github.com/user-attachments/assets/488da393-a828-4bd9-8813-ace6164a1d2c" style="width: 80%; height: auto;">
 </p>
 
-
-
-
 - Vision-Language Navigation
 
 <p align="center">
 <img src="https://github.com/user-attachments/assets/78c36b4e-0ea8-42e2-a3fd-692d7c2fb4a7" style="width: 80%; height: auto;">
 </p>
-
-
-
 
 
 ## Model Zoo
