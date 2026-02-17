@@ -59,8 +59,9 @@ Through massive training on rich spatio-temporal, physical-space, and general kn
 - Robot Task Planning
 
 <p align="center">
-<img src="https://github.com/user-attachments/assets/488da393-a828-4bd9-8813-ace6164a1d2c" style="width: 80%; height: auto;">
+<img src="https://github.com/user-attachments/assets/ce0b20c2-81be-403c-bd5f-19bbe5235dd2" style="width: 80%; height: auto;">
 </p>
+
 
 - Vision-Language Navigation
 
@@ -144,6 +145,22 @@ For details, please refer to [RynnBrain-Bench](./rynnbrain-bench/README.md).
 <p align="center">
 <img src="./cookbooks/assets/RynnBrain-Bench.png" style="width: 80%; height: auto;">
 </p>
+
+
+## 📑 Citation
+
+If you find RynnBrain useful for your research and applications, please cite using this BibTeX:
+
+```bibtex
+@article{damo2026rynnbrain,
+  title={RynnBrain: Open Embodied Foundation Models},
+  author={Ronghao Dang, Jiayan Guo, Bohan Hou, Sicong Leng, Kehan Li, Xin Li, Jiangpin Liu, Yunxuan Mao, Zhikai Wang, Yuqian Yuan, Minghao Zhu, Xiao Lin, Yang Bai, Qian Jiang, Yaxi Zhao, Minghua Zeng, Junlong Gao, Yuming Jiang, Jun Cen, Siteng Huang, Liuyi Wang, Wenqiao Zhang, Chengju Liu, Jianfei Yang, Shijian Lu, Deli Zhao},
+  journal={arXiv preprint arXiv:2602.14979v1},
+  year={2026},
+  url = {https://arxiv.org/abs/2602.14979v1}
+}
+
+```
 
 <details open><summary>💡 Some other multimodal-LLM projects from our team may interest you ✨. </summary><p>
 <!--  may -->
