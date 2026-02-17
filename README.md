@@ -3,13 +3,13 @@
 <img src="./cookbooks/assets/logo.png" style="width: 50%; height: auto;">
 </p>
 <p align="center">
-       💫 <a href="https://alibaba-damo-academy.github.io/RynnBrain.github.io/"><b>Project Page</b></a>&nbsp;&nbsp; | &nbsp;&nbsp; 🤗 <a href ="https://huggingface.co/collections/Alibaba-DAMO-Academy/rynnbrain"><b> Hugging Face </b></a> &nbsp;&nbsp; | &nbsp;&nbsp; 🤖 <a href = "https://www.modelscope.cn/collections/DAMO_Academy/RynnBrain"><b> ModelScope</b></a>  &nbsp;|&nbsp; 🚀 <a href="https://huggingface.co/spaces/Alibaba-DAMO-Academy/RynnBrain"><b>Demo</b></a> &nbsp;&nbsp; | &nbsp;&nbsp;📚 <a href="https://github.com/alibaba-damo-academy/RynnBrain/tree/main/cookbooks">Cookbooks</a>&nbsp;&nbsp;📄 <a href="https://arxiv.org/abs/2602.14979v1">arXiv</a>&nbsp;&nbsp;
+       💫 <a href="https://alibaba-damo-academy.github.io/RynnBrain.github.io/"><b>Project Page</b></a>&nbsp;&nbsp; | &nbsp;&nbsp; 🤗 <a href ="https://huggingface.co/collections/Alibaba-DAMO-Academy/rynnbrain"><b> Hugging Face </b></a> &nbsp;&nbsp; | &nbsp;&nbsp; 🤖 <a href = "https://www.modelscope.cn/collections/DAMO_Academy/RynnBrain"><b> ModelScope</b></a>  &nbsp;|&nbsp; 🚀 <a href="https://huggingface.co/spaces/Alibaba-DAMO-Academy/RynnBrain"><b>Demo</b></a> &nbsp;&nbsp; | &nbsp;&nbsp;📚 <a href="https://github.com/alibaba-damo-academy/RynnBrain/tree/main/cookbooks">Cookbooks</a>&nbsp;&nbsp; | &nbsp;&nbsp; 📄 <a href="https://arxiv.org/abs/2602.14979v1">arXiv</a>&nbsp;&nbsp;
 
 </p>
 
 
 ## 📰 News
-* **[2026.02.17]**  🔥🔥 Release our Technical Report on <a href="https://arxiv.org/abs/2602.14979v1">arxiv </a> !!
+* **[2026.02.17]**  🔥🔥 Release our Technical Report on <a href="https://arxiv.org/abs/2602.14979v1">arXiv </a> !!
 * **[2026.02.15]**  🔥🔥 Release our <a href="https://alibaba-damo-academy.github.io/RynnBrain.github.io/assets/RynnBrain_Report.pdf">Technical Report</a> !!
 * **[2026.02.09]**  🔥🔥 Release our code and model checkpoints!!
 
