@@ -86,17 +86,136 @@ Through massive training on rich spatio-temporal, physical-space, and general kn
 
 ## Quick Start
 
-Minimal dependencies:
+### Inference with 🤗transformers
+
+**Minimal dependencies**
 ```shell
 pip install transformers==4.57.1
 ```
-Run text generation:
+**Run text generation**
 ```python
-from transformers import AutoModelForImageTextToText
+import torch
+from transformers import AutoModelForImageTextToText, AutoProcessor
 
-model = AutoModelForImageTextToText.from_pretrained("")
-...
+conversation = [
+    {
+        'role': 'user',
+        'content': [
+            {'type': 'image', 'image': 'cookbooks/assets/object_location/images/000000086408.jpg'},
+            {'type': 'text', 'text': 'What appliance can be used to heat food quickly.\nGenerate coordinates for one object bounding box. Constraints: x1,y1,x2,y2 ∈ [0,1000]. Response must be in the format: <object> (x1, y1), (x2, y2) </object>'},
+        ],
+    }
+]
+
+model_path = "Alibaba-DAMO-Academy/RynnBrain-2B"
+processor = AutoProcessor.from_pretrained(model_path)
+model = AutoModelForImageTextToText.from_pretrained(
+    model_path,
+    dtype=torch.bfloat16,
+)
+model.to("cuda")
+
+model_inputs = processor.apply_chat_template(
+    conversation,
+    add_generation_prompt=True,
+    tokenize=True,
+    return_dict=True,
+    return_tensors="pt",
+)
+model_inputs = model_inputs.to("cuda")
+
+output_ids = model.generate(
+    **model_inputs,
+    max_new_tokens=256,
+)
+output_ids = output_ids[:, model_inputs["input_ids"].size(1):]
+response = processor.decode(output_ids[0], skip_special_tokens=True)
+print(response)
 ```
+
+
+
+### Inference with SGLang
+
+For installation and advanced usages, please refer to the official [documentation](https://docs.sglang.io).
+
+**OpenAI-Compatible Serving**
+```shell
+# launch server
+python3 -m sglang.launch_server --model-path Alibaba-DAMO-Academy/RynnBrain-2B --host 0.0.0.0 --port 8000
+```
+
+```python
+# inference using openai api
+import base64
+import io
+
+from openai import OpenAI
+from PIL import Image
+
+def pil_to_url(image: Image.Image):
+    image_format = image.format if image.format else 'PNG'
+    buffered = io.BytesIO()
+    image.save(buffered, format=image_format)
+    img_str = base64.b64encode(buffered.getvalue()).decode('utf-8')
+    return f'data:image/{image_format.lower()};base64,{img_str}'
+
+messages = [
+    {
+        'role': 'user',
+        'content': [
+            {'type': 'image_url', 'image_url': {'url': pil_to_url(Image.open('cookbooks/assets/object_location/images/000000086408.jpg'))}},
+            {'type': 'text', 'text': 'What appliance can be used to heat food quickly.\nGenerate coordinates for one object bounding box. Constraints: x1,y1,x2,y2 ∈ [0,1000]. Response must be in the format: <object> (x1, y1), (x2, y2) </object>'},
+        ],
+    }
+]
+
+client = OpenAI(api_key="", base_url="http://localhost:8000/v1")
+response = client.chat.completions.create(
+    model="default",
+    messages=messages,
+    stream=False,
+).choices[0].message.content
+print(response)
+```
+
+**Offline Engine**
+```python
+import sglang as sgl
+from transformers import AutoProcessor
+
+def main():
+    conversation = [
+        {
+            'role': 'user',
+            'content': [
+                {'type': 'image'},
+                {'type': 'text', 'text': 'What appliance can be used to heat food quickly.\nGenerate coordinates for one object bounding box. Constraints: x1,y1,x2,y2 ∈ [0,1000]. Response must be in the format: <object> (x1, y1), (x2, y2) </object>'},
+            ],
+        }
+    ]
+
+    model_path = 'Alibaba-DAMO-Academy/RynnBrain-2B'
+    llm = sgl.Engine(model_path=model_path)
+    processor = AutoProcessor.from_pretrained(model_path)
+
+    prompt = processor.apply_chat_template(
+        conversation,
+        add_generation_prompt=True,
+        tokenize=False,
+    )
+
+    output = llm.generate(
+        prompt=prompt,
+        image_data='cookbooks/assets/object_location/images/000000086408.jpg',
+        sampling_params={"temperature": 0.8, "top_p": 0.95},
+    )
+    print(f"Prompt: {prompt}\nGenerated text: {output['text']}")
+
+if __name__ == '__main__':
+    main()
+```
+
 
 
 ## Cookbooks
