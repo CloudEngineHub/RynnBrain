@@ -9,6 +9,7 @@
 
 
 ## 📰 News
+* **[2026.04.13]**  🔥🔥 Launch the brand-new <a href="https://huggingface.co/Alibaba-DAMO-Academy/RynnBrain-4B">RynnBrain-4B </a> !!
 * **[2026.02.17]**  🔥🔥 Release our Technical Report on <a href="https://arxiv.org/abs/2602.14979v1">arXiv </a> !!
 * **[2026.02.15]**  🔥🔥 Release our <a href="https://alibaba-damo-academy.github.io/RynnBrain.github.io/assets/RynnBrain_Report.pdf">Technical Report</a> !!
 * **[2026.02.09]**  🔥🔥 Release our code and model checkpoints!!
@@ -16,7 +17,7 @@
 
 
 ## Introduction
-We present **RynnBrain**, an embodied foundation model grounded in physical reality. RynnBrain is available in two dense variants (2B and 8B) and one mixture-of-experts (MoE) model (30B-A3B). 
+We present **RynnBrain**, an embodied foundation model grounded in physical reality. RynnBrain is available in three dense variants (2B, 4B, and 8B) and one mixture-of-experts (MoE) model (30B-A3B). 
 In addition, we release three post‑trained models: RynnBrain‑Plan (**robot task planning**), RynnBrain‑Nav (**vision-language navigation**), and RynnBrain‑CoP (**chain-of-point reasoning**). 
 <!-- RynnBrain‑Plan demonstrates the effectiveness of the fine‑grained manipulation‑planning paradigm that alternates between textual reasoning and localization. -->
 <!-- RynnBrain‑Nav verifies that using RynnBrain as the foundation model can substantially enhance the performance ceiling of various embodied task models.  -->
@@ -75,6 +76,7 @@ Through massive training on rich spatio-temporal, physical-space, and general kn
 | Model            | Base Model           | HuggingFace | ModelScope |
 | :--------------- | :------------------- | :---------: | :--------: |
 | RynnBrain-2B  | Qwen3-VL-2B-Instruct | [Link](https://huggingface.co/Alibaba-DAMO-Academy/RynnBrain-2B)    | [Link](https://www.modelscope.cn/models/DAMO_Academy/RynnBrain-2B)   |
+| RynnBrain-4B  | Qwen3-VL-4B-Instruct | [Link](https://huggingface.co/Alibaba-DAMO-Academy/RynnBrain-4B)    | [Link](https://www.modelscope.cn/models/DAMO_Academy/RynnBrain-4B)   |
 | RynnBrain-8B  | Qwen3-VL-8B-Instruct | [Link](https://huggingface.co/Alibaba-DAMO-Academy/RynnBrain-8B)    | [Link](https://www.modelscope.cn/models/DAMO_Academy/RynnBrain-8B)   |
 | RynnBrain-30B-A3B  | Qwen3-VL-30B-A3B-Instruct | [Link](https://huggingface.co/Alibaba-DAMO-Academy/RynnBrain-30B-A3B)    | [Link](https://www.modelscope.cn/models/DAMO_Academy/RynnBrain-30B-A3B)   |
 | RynnBrain‑CoP-8B | RynnBrain-8B         | [Link](https://huggingface.co/Alibaba-DAMO-Academy/RynnBrain-CoP-8B)    | [Link](https://www.modelscope.cn/models/DAMO_Academy/RynnBrain-CoP-8B)   |
