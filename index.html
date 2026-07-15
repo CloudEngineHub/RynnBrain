@@ -4,8 +4,9 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <meta name="theme-color" content="#0b0b0f" />
-  <meta name="description" content="XXX" />
+  <meta name="description" content="RynnBrain 1.1: Towards More Capable and Generalizable Embodied Foundation Model" />
   <title>RynnBrain 1.1: Towards More Capable and Generalizable Embodied Foundation Model</title>
+  <link rel="icon" href="assets1.1/head.png" type="image/png" />
   <!-- 图标库（按钮图标用） -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 
@@ -954,6 +955,41 @@ html[data-theme="light"]{
       display: grid;
       gap: 16px;
     }
+    .one-take-grid{
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 20px;
+    }
+    .one-take-card{
+      margin: 0;
+      padding: 12px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      background: color-mix(in srgb, var(--panel2) 94%, transparent);
+      box-shadow: 0 18px 60px rgba(0,0,0,.18);
+      overflow: hidden;
+    }
+    .one-take-frame{
+      aspect-ratio: 16 / 9;
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      background: #05070c;
+    }
+    .one-take-frame video{
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      background: #05070c;
+    }
+    .one-take-title{
+      margin: 11px 0 2px;
+      color: var(--text);
+      text-align: center;
+      font-size: 16px;
+      line-height: 1.4;
+      font-weight: 900;
+    }
     .architecture-stack{
       display: grid;
       gap: 22px;
@@ -1164,6 +1200,104 @@ html[data-theme="light"]{
       font-weight: 650;
     }
 
+    /* ===== Dynamic gradient background shared with index1 ===== */
+    .dynamic-bg{
+      --texture-opacity: .24;
+      --texture-blend: multiply;
+    }
+    .dynamic-bg .bg-layer{
+      overflow: hidden;
+      background: var(--page-background);
+      background-size: 150% 120%, 158% 120%, 148% 120%, 108% 108%;
+      animation: site-flow-drift 10s ease-in-out infinite alternate;
+      will-change: background-position, transform;
+    }
+    .dynamic-bg .bg-layer::before{
+      content: "";
+      display: block;
+      position: absolute;
+      inset: -18% -22%;
+      background:
+        radial-gradient(circle at 50% 50%, rgba(99,102,241,.68) 0 13%, rgba(99,102,241,.30) 30%, transparent 68%),
+        radial-gradient(circle at 50% 50%, rgba(147,82,255,.62) 0 15%, rgba(147,82,255,.27) 34%, transparent 70%),
+        radial-gradient(circle at 50% 50%, rgba(14,165,233,.52) 0 12%, rgba(14,165,233,.22) 29%, transparent 66%),
+        radial-gradient(circle at 50% 50%, rgba(99,102,241,.50) 0 16%, rgba(147,82,255,.20) 36%, transparent 72%),
+        radial-gradient(circle at 50% 50%, rgba(147,82,255,.46) 0 12%, rgba(99,102,241,.18) 32%, transparent 68%);
+      background-size: 34% 46%, 29% 39%, 40% 52%, 31% 43%, 24% 34%;
+      background-position: -8% 12%, 24% 70%, 58% 4%, 88% 62%, 46% 43%;
+      background-repeat: no-repeat;
+      opacity: var(--texture-opacity);
+      mix-blend-mode: var(--texture-blend);
+      filter: url(#site-water-distortion) blur(18px) saturate(112%);
+      transform: scale(1.06);
+      animation: site-bubble-float 9s ease-in-out infinite alternate;
+      will-change: background-position, transform;
+    }
+    .dynamic-bg .bg-layer::after{
+      background: var(--page-sheen);
+      background-size: 170% 170%;
+      animation: site-flow-sheen 8s ease-in-out infinite alternate;
+    }
+    @keyframes site-flow-drift{
+      0%{
+        background-position: -8% 10%, 108% 18%, 4% 90%, 50% 50%;
+        transform: scale(1.04) translate3d(-1%,0,0);
+      }
+      50%{
+        background-position: 28% 10%, 76% 18%, 38% 90%, 50% 50%;
+        transform: scale(1.06) translate3d(.5%,0,0);
+      }
+      100%{
+        background-position: 66% 10%, 42% 18%, 72% 90%, 50% 50%;
+        transform: scale(1.05) translate3d(1%,0,0);
+      }
+    }
+    @keyframes site-bubble-float{
+      0%{
+        background-position: -8% 12%, 24% 70%, 58% 4%, 88% 62%, 46% 43%;
+        transform: scale(1.06) translate3d(-1%,0,0);
+      }
+      46%{
+        background-position: 12% 27%, 37% 55%, 48% 20%, 74% 44%, 58% 68%;
+        transform: scale(1.10) translate3d(1%,-1%,0);
+      }
+      100%{
+        background-position: 25% 6%, 17% 43%, 70% 34%, 58% 72%, 78% 30%;
+        transform: scale(1.07) translate3d(0,1%,0);
+      }
+    }
+    @keyframes site-flow-sheen{
+      0%{ background-position: 0% 50%; }
+      100%{ background-position: 100% 50%; }
+    }
+    html[data-theme="dark"] .dynamic-bg{
+      --texture-opacity: .38;
+      --texture-blend: screen;
+    }
+    html[data-theme="light"] .dynamic-bg{
+      --texture-opacity: .24;
+      --texture-blend: multiply;
+    }
+    @media (prefers-color-scheme: dark){
+      html:not([data-theme="light"]) .dynamic-bg{
+        --texture-opacity: .38;
+        --texture-blend: screen;
+      }
+    }
+    .site-wave-filter{
+      position: fixed;
+      width: 0;
+      height: 0;
+      overflow: hidden;
+      pointer-events: none;
+    }
+    @media (prefers-reduced-motion: reduce){
+      .dynamic-bg .bg-layer,
+      .dynamic-bg .bg-layer::before,
+      .dynamic-bg .bg-layer::after{ animation: none; }
+      .dynamic-bg .bg-layer::before{ filter: blur(18px); }
+    }
+
     /* ===== Responsive ===== */
     @media (max-width: 980px){
       .demo-card{ flex: 0 0 calc((100% - 1 * 18px) / 2); }
@@ -1216,6 +1350,8 @@ html[data-theme="light"]{
         grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 8px;
       }
+      .one-take-grid{ grid-template-columns: 1fr; gap: 12px; }
+      .one-take-card{ padding: 6px; }
       .result-card,
       .figure-card{ padding: 6px; }
       .figure-caption{
@@ -1240,160 +1376,14 @@ html[data-theme="light"]{
       .real-table-card{ margin-top: 14px; }
     }
   </style>
-
-  <style>
-    .template-only {
-      --texture-opacity: .24;
-      --texture-blend: multiply;
-    }
-    .template-only .bg-layer {
-      overflow: hidden;
-      background: var(--page-background);
-      background-size: 150% 120%, 158% 120%, 148% 120%, 108% 108%;
-      animation: template-flow-drift 10s ease-in-out infinite alternate;
-      will-change: background-position, transform;
-    }
-    .template-only .bg-layer::before {
-      content: "";
-      display: block;
-      position: absolute;
-      inset: -18% -22%;
-      background:
-        radial-gradient(circle at 50% 50%, rgba(99, 102, 241, .68) 0 13%, rgba(99, 102, 241, .30) 30%, transparent 68%),
-        radial-gradient(circle at 50% 50%, rgba(147, 82, 255, .62) 0 15%, rgba(147, 82, 255, .27) 34%, transparent 70%),
-        radial-gradient(circle at 50% 50%, rgba(14, 165, 233, .52) 0 12%, rgba(14, 165, 233, .22) 29%, transparent 66%),
-        radial-gradient(circle at 50% 50%, rgba(99, 102, 241, .50) 0 16%, rgba(147, 82, 255, .20) 36%, transparent 72%),
-        radial-gradient(circle at 50% 50%, rgba(147, 82, 255, .46) 0 12%, rgba(99, 102, 241, .18) 32%, transparent 68%);
-      background-size: 34% 46%, 29% 39%, 40% 52%, 31% 43%, 24% 34%;
-      background-position: -8% 12%, 24% 70%, 58% 4%, 88% 62%, 46% 43%;
-      background-repeat: no-repeat;
-      opacity: var(--texture-opacity);
-      mix-blend-mode: var(--texture-blend);
-      filter: url(#template-water-distortion) blur(18px) saturate(112%);
-      transform: scale(1.06);
-      animation: template-bubble-float 9s ease-in-out infinite alternate;
-      will-change: background-position, transform;
-    }
-    .template-only .bg-layer::after {
-      background: var(--page-sheen);
-      background-size: 170% 170%;
-      animation: template-flow-sheen 8s ease-in-out infinite alternate;
-    }
-    @keyframes template-flow-drift {
-      0% {
-        background-position: -8% 10%, 108% 18%, 4% 90%, 50% 50%;
-        transform: scale(1.04) translate3d(-1%, 0, 0);
-      }
-      50% {
-        background-position: 28% 10%, 76% 18%, 38% 90%, 50% 50%;
-        transform: scale(1.06) translate3d(.5%, 0, 0);
-      }
-      100% {
-        background-position: 66% 10%, 42% 18%, 72% 90%, 50% 50%;
-        transform: scale(1.05) translate3d(1%, 0, 0);
-      }
-    }
-    @keyframes template-flow-sheen {
-      0%   { background-position: 0% 50%; }
-      100% { background-position: 100% 50%; }
-    }
-    @keyframes template-bubble-float {
-      0% {
-        background-position: -8% 12%, 24% 70%, 58% 4%, 88% 62%, 46% 43%;
-        transform: scale(1.06) translate3d(-1%, 0, 0);
-      }
-      46% {
-        background-position: 12% 27%, 37% 55%, 48% 20%, 74% 44%, 58% 68%;
-        transform: scale(1.10) translate3d(1%, -1%, 0);
-      }
-      100% {
-        background-position: 25% 6%, 17% 43%, 70% 34%, 58% 72%, 78% 30%;
-        transform: scale(1.07) translate3d(0, 1%, 0);
-      }
-    }
-    html[data-theme="dark"] .template-only {
-      --texture-opacity: .38;
-      --texture-blend: screen;
-    }
-    html[data-theme="light"] .template-only {
-      --texture-opacity: .24;
-      --texture-blend: multiply;
-    }
-    @media (prefers-color-scheme: dark) {
-      html:not([data-theme="light"]) .template-only {
-        --texture-opacity: .38;
-        --texture-blend: screen;
-      }
-    }
-    @media (prefers-reduced-motion: reduce) {
-      .template-only .bg-layer,
-      .template-only .bg-layer::before,
-      .template-only .bg-layer::after { animation: none; }
-      .template-only .bg-layer::before { filter: blur(18px); }
-    }
-    .template-only .corner-logos,
-    .template-only .pill-row { display: none; }
-    .template-wave-filter {
-      position: fixed;
-      width: 0;
-      height: 0;
-      overflow: hidden;
-      pointer-events: none;
-    }
-    .template-only .hero { padding-top: 96px; }
-    .template-media {
-      width: 100%;
-      min-height: 150px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: var(--radius-md);
-      border: 1px dashed color-mix(in srgb, var(--border) 180%, transparent);
-      background:
-        linear-gradient(135deg,
-          color-mix(in srgb, #7765ed 10%, var(--panel2)),
-          color-mix(in srgb, #38bdf8 7%, var(--panel2)));
-      color: var(--muted);
-      font-size: 15px;
-      font-weight: 900;
-      letter-spacing: .16em;
-    }
-    .template-hero-media {
-      width: min(1080px, 100%);
-      min-height: 430px;
-      margin: 28px auto 0;
-      border-radius: var(--radius-xl);
-    }
-    .template-media.ratio-16-9 { aspect-ratio: 16 / 9; min-height: 0; }
-    .template-media.ratio-wide { aspect-ratio: 3.2 / 1; min-height: 0; }
-    .template-media.ratio-ultrawide { aspect-ratio: 4 / 1; min-height: 0; }
-    .result-card .media > .template-media { height: 100%; }
-    .template-copy { max-width: 840px; margin: 0 auto 22px; }
-    .template-copy span {
-      display: block;
-      height: 12px;
-      margin: 9px auto;
-      border-radius: 999px;
-      background: color-mix(in srgb, var(--border) 165%, transparent);
-    }
-    .template-copy span:nth-child(1) { width: 92%; }
-    .template-copy span:nth-child(2) { width: 78%; }
-    .template-copy span:nth-child(3) { width: 58%; }
-    .template-only .abstract { min-height: 150px; display: grid; place-items: center; }
-    .template-only .architecture-media,
-    .template-only .real-table-media { background: transparent; padding: 0; }
-    @media (max-width: 640px) {
-      .template-hero-media { min-height: 220px; }
-      .template-media { font-size: 12px; }
-    }
-  </style>
 </head>
 
-<body class="template-only">
+<body class="dynamic-bg">
+  <!-- 背景 -->
   <div class="bg-layer"></div>
-  <svg class="template-wave-filter" aria-hidden="true" focusable="false">
+  <svg class="site-wave-filter" aria-hidden="true" focusable="false">
     <defs>
-      <filter id="template-water-distortion" x="-25%" y="-35%" width="150%" height="170%">
+      <filter id="site-water-distortion" x="-25%" y="-35%" width="150%" height="170%">
         <feTurbulence
           type="fractalNoise"
           baseFrequency="0.006 0.014"
@@ -1423,6 +1413,15 @@ html[data-theme="light"]{
   </svg>
   <div class="vignette"></div>
 
+  <!-- 左上角品牌标识 -->
+  <div class="corner-logos" aria-label="Affiliation logos">
+    <img class="logo-light affiliation-logo" src="assets1.1/damo-logo-1.png" alt="DAMO Academy and Hupan Laboratory">
+    <img class="logo-dark affiliation-logo" src="assets1.1/damo-logo-2.png" alt="DAMO Academy and Hupan Laboratory">
+    <span class="brand-divider" aria-hidden="true"></span>
+    <img class="rynnbrain-nav-logo" src="assets1.1/logo_new.png" alt="RynnBrain 1.1">
+  </div>
+
+  <!-- 右上角：主题切换（默认随系统） -->
   <div class="theme-toggle">
     <button class="theme-btn" id="toggleTheme" type="button">
       <i class="fa-solid fa-circle-half-stroke"></i>
@@ -1431,123 +1430,425 @@ html[data-theme="light"]{
     <span class="theme-hint" id="themeHint">Auto</span>
   </div>
 
+  <!-- Hero -->
   <header class="hero">
     <div class="container">
       <div class="title-row">
+        <img class="project-wordmark-hero" src="assets1.1/logo_new.png" alt="RynnBrain 1.1">
         <h1 class="title">RynnBrain 1.1: Towards More Capable and Generalizable Embodied Foundation Model</h1>
       </div>
-      <div class="authors"><span class="a">XXX</span></div>
-      <div class="aff">XXX</div>
-      <div class="panel template-media template-hero-media">XXX</div>
+
+      <!-- <p class="subtitle">一句话简介（可选）：说明你们的贡献点 / 任务 / Benchmark。</p> -->
+
+      <div class="authors">
+        <span class="a">Kehan Li<sup>*,†</sup></span>
+        <span class="a">Bohan Hou<sup>*</sup></span>
+        <span class="a">Minghao Zhu<sup>*</sup></span>
+        <span class="a">Tianyi Zhang<sup>*</sup></span>
+        <span class="a">Zesen Cheng<sup>*</sup></span>
+        <span class="a">Zhikai Wang<sup>*</sup></span>
+        <span class="a">Sicong Leng<sup>*</sup></span>
+        <span class="a">Xin Li<sup>*,†</sup></span>
+        <span class="a">Xiao Lin<sup>*</sup></span>
+        <span class="a">Biying Yao<sup>*</sup></span>
+        <span class="a">Minghua Zeng<sup>*</sup></span>
+        <span class="a">Jiangpin Liu<sup>*</sup></span>
+        <span class="a">Ronghao Dang<sup>*</sup></span>
+        <span class="a">Jiayan Guo<sup>*</sup></span>
+
+        <br class="mobile-hidden" style="display:block; margin:4px 0;">
+
+        <span class="a">Siteng Huang</span>
+        <span class="a">Haoyu Zhao</span>
+        <span class="a">Heng Ping</span>
+        <span class="a">Yaxi Zhao</span>
+        <span class="a">Kexiang Wang</span>
+        <span class="a">Shengke Xue</span>
+        <span class="a">Jiahao Tang</span>
+        <span class="a">Yulei Wang</span>
+        <span class="a">Zejing Wang</span>
+        <span class="a">Jianwei Gao</span>
+        <span class="a">Shijian Lu</span>
+        <span class="a">Chengju Liu</span>
+        <span class="a">Jianfei Yang</span>
+        <span class="a">Mingxiu Chen</span>
+        <span class="a">Deli Zhao</span>
+      </div>
+
+      <div class="aff" style="font-size: 16px; margin-top: 12px; color: var(--text);">
+        <span style="display:inline-block; margin: 0 10px;"><sup>1</sup> DAMO Academy, Alibaba Group</span>
+        <span style="display:inline-block; margin: 0 10px;"><sup>2</sup> Hupan Lab</span>
+      </div>
+
+      <div class="aff" style="font-size: 15px; margin-top: 10px; color: var(--muted);">
+        <span style="display:inline-block; margin: 0 10px;">
+          <sup>*</sup> Core contributors
+        </span>
+        <span style="display:inline-block; margin: 0 10px;">
+          <sup>†</sup> Project lead
+        </span>
+      </div>
+
+      <!-- 图标按钮 -->
+      <div class="pill-row">
+        <a class="pill" href="https://alibaba-damo-academy.github.io/RynnBrain" target="_blank" rel="noopener"><i class="fa-solid fa-house"></i> Homepage</a>
+        <a class="pill" href="https://github.com/alibaba-damo-academy/RynnBrain" target="_blank" rel="noopener"><i class="fa-brands fa-github"></i> GitHub</a>
+        <a class="pill" href="#" aria-disabled="true" onclick="return false;"><i class="fa-regular fa-file-lines"></i> System Card</a>
+        <!-- <a class="pill" href="#" target="_blank" rel="noopener"><i class="fa-solid fa-book-open"></i> ArXiv(Soon)</a> -->
+        <a class="pill" href="https://huggingface.co/collections/Alibaba-DAMO-Academy/rynnbrain-11" target="_blank" rel="noopener"><i class="fa-solid fa-face-smile"></i> Hugging Face</a>
+        <a class="pill" href="https://modelscope.cn/collections/DAMO_Academy/RynnBrain-11" target="_blank" rel="noopener"><i class="fa-regular fa-file-lines"></i> ModelScope</a>
+        <a class="pill" href="https://huggingface.co/datasets/Alibaba-DAMO-Academy/RynnBrain-Bench" target="_blank" rel="noopener"><i class="fa-solid fa-face-smile"></i> Benchmark</a>
+        
+      </div>
+<!-- <h2 class="h2">宣传视频</h2> -->
+      <!-- 宣传视频  -->
+      <section>
+      <div class="container"> 
+        
+        <div class="promo-wrap"> 
+          <div class="promo-inner">
+            <video 
+              id="mainVideo" 
+              src="https://media.githubusercontent.com/media/alibaba-damo-academy/RynnBrain.github.io/main/assets1.1/RynnBrain1.1-intro.mov"
+              controls 
+              playsinline
+              preload="metadata">
+            </video>
+          </div>
+        </div>
+
+      </div>
+    </section>
     </div>
   </header>
 
   <main class="container">
+    <section class="content-section">
+      <h2 class="h2">One-Take Real-Robot Demos</h2>
+      <div class="section-copy">
+        <p>Two uninterrupted long-horizon executions show the complete task process from initial observation to final completion without editing or temporal cuts.</p>
+      </div>
+      <div class="one-take-grid">
+        <figure class="one-take-card">
+          <div class="one-take-frame">
+            <video controls playsinline preload="metadata" src="https://media.githubusercontent.com/media/alibaba-damo-academy/RynnBrain.github.io/main/assets1.1/送餐一镜到底V4.mov"></video>
+          </div>
+          <figcaption class="one-take-title">Meal Delivery · One Take</figcaption>
+        </figure>
+        <figure class="one-take-card">
+          <div class="one-take-frame">
+            <video controls playsinline preload="metadata" src="https://media.githubusercontent.com/media/alibaba-damo-academy/RynnBrain.github.io/main/assets1.1/煎牛排一镜到底V5.mov"></video>
+          </div>
+          <figcaption class="one-take-title">Steak Cooking · One Take</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- Abstract -->
     <section>
-      <h2 class="h2">XXX</h2>
-      <div class="panel abstract"><p>XXX</p></div>
+      <h2 class="h2">Abstract</h2>
+      <div class="panel abstract">
+    <p>
+      We present <strong>RynnBrain 1.1</strong>, a family of embodied foundation models spanning <strong>2B, 9B, and 122B-A10B</strong> scales. Built on a unified spatio-temporal and physically grounded training framework, RynnBrain 1.1 supports embodied perception, spatial reasoning, localization, grounding, and planning across model scales. Compared with RynnBrain 1.0, RynnBrain 1.1 introduces contact-point prediction for task-relevant interaction locations and in-plane grasp orientations, together with native 3D grounding that enables the 2B and 9B models to perform language-conditioned grounding in metric physical space. We further develop <strong>RynnBrain-VLA</strong> with a unified cross-embodiment action space and embodiment-specific masking, and evaluate it on a Unitree G1 humanoid, an Astribot-S1 bimanual robot, and a Tianji-Wuji dexterous-hand system. Experiments show that RynnBrain 1.1 achieves strong performance on embodied cognition, spatial reasoning, localization, and 3D-grounding benchmarks. Controlled real-robot evaluations further demonstrate that VLA policies initialized from RynnBrain outperform Qwen-based VLA policies and representative VLA generalists, while joint multi-task and multi-embodiment training improves both average process scores and final task success rates over separately fine-tuned per-task policies.
+    </p>
+  </div>
     </section>
 
+    <!-- RynnBrain 1.1: scaling + model results in a four-card grid -->
     <section class="content-section">
-      <h2 class="h2">XXX</h2>
-      <div class="template-copy" aria-hidden="true"><span></span><span></span><span></span></div>
-      <div class="results-grid">
-        <figure class="result-card"><div class="media"><div class="template-media">XXX</div></div><figcaption class="figure-caption">XXX</figcaption></figure>
-        <figure class="result-card"><div class="media"><div class="template-media">XXX</div></div><figcaption class="figure-caption">XXX</figcaption></figure>
-        <figure class="result-card"><div class="media"><div class="template-media">XXX</div></div><figcaption class="figure-caption">XXX</figcaption></figure>
-        <figure class="result-card"><div class="media"><div class="template-media">XXX</div></div><figcaption class="figure-caption">XXX</figcaption></figure>
+      <h2 class="h2">RynnBrain 1.1 Results</h2>
+      <div class="section-copy">
+        <p>RynnBrain 1.1 is evaluated at 2B, 9B, and 122B-A10B scales under one unified embodied training recipe. Performance rises consistently across general cognition, reasoning-intensive cognition, and embodied localization.</p>
+        <p>The four panels keep the scaling trend and all model-level comparisons together. Click any panel to inspect the full-resolution table.</p>
+      </div>
+
+      <div class="panel section-panel">
+        <div class="results-grid">
+          <figure class="result-card">
+            <div class="media">
+              <img src="assets1.1/scaling-analysis.png" alt="RynnBrain 1.1 scaling analysis" loading="lazy" onclick="openLightbox(this)">
+            </div>
+            <figcaption class="figure-caption">Scaling Analysis</figcaption>
+          </figure>
+
+          <figure class="result-card">
+            <div class="media">
+              <img src="assets1.1/2B-results.png" alt="RynnBrain 1.1 2B benchmark results" loading="lazy" onclick="openLightbox(this)">
+            </div>
+            <figcaption class="figure-caption">RynnBrain 1.1-2B</figcaption>
+          </figure>
+
+          <figure class="result-card">
+            <div class="media">
+              <img src="assets1.1/9B-results.png" alt="RynnBrain 1.1 9B benchmark results" loading="lazy" onclick="openLightbox(this)">
+            </div>
+            <figcaption class="figure-caption">RynnBrain 1.1-9B</figcaption>
+          </figure>
+
+          <figure class="result-card">
+            <div class="media">
+              <img src="assets1.1/122B-results.png" alt="RynnBrain 1.1 122B-A10B benchmark results" loading="lazy" onclick="openLightbox(this)">
+            </div>
+            <figcaption class="figure-caption">RynnBrain 1.1-122B-A10B</figcaption>
+          </figure>
+        </div>
       </div>
     </section>
 
     <section class="content-section">
-      <h2 class="h2">XXX</h2>
-      <div class="template-copy" aria-hidden="true"><span></span><span></span><span></span></div>
+      <h2 class="h2">3D Grounding</h2>
+      <div class="section-copy">
+        <p>Explicit 3D supervision gives the compact models native language-conditioned 3D grounding. RynnBrain 1.1-9B reaches 41.12 AP@15 on SUN RGB-D and 23.44 AP3D on WildDet3D-Bench.</p>
+        <p>The gains from 2B to 9B show that metric depth, object size, orientation, and open-vocabulary spatial grounding all benefit from model scaling.</p>
+      </div>
       <div class="grounding-stack">
-        <figure class="figure-card"><div class="template-media ratio-wide">XXX</div><figcaption class="figure-caption">XXX</figcaption></figure>
-        <figure class="figure-card"><div class="template-media ratio-ultrawide">XXX</div><figcaption class="figure-caption">XXX</figcaption></figure>
+        <figure class="figure-card">
+          <img src="assets1.1/3d-grounding-results.png" alt="RynnBrain 1.1 3D grounding results" loading="lazy" onclick="openLightbox(this)">
+          <figcaption class="figure-caption"> Results of RynnBrain 1.1-2B and 9B on SUN RGB-D and WildDet3D-Bench.</figcaption>
+        </figure>
+        <figure class="figure-card">
+          <img src="assets1.1/3d-cases.png" alt="RynnBrain 1.1 language-conditioned 3D grounding cases for a bed, table, and chair" loading="lazy" onclick="openLightbox(this)">
+          <figcaption class="figure-caption">Qualitative language-conditioned 3D box predictions across diverse indoor scenes.</figcaption>
+        </figure>
       </div>
     </section>
 
     <section class="content-section">
-      <h2 class="h2">XXX</h2>
-      <div class="template-copy" aria-hidden="true"><span></span><span></span><span></span></div>
+      <h2 class="h2">Contact Point Prediction</h2>
+      <div class="section-copy">
+        <p>Instead of predicting only an object center, RynnBrain 1.1 identifies an action-relevant contact point together with its in-plane grasp orientation. The model adapts to object geometry, state, target part, and the user instruction.</p>
+        <p>These examples cover thin objects, containers, overturned objects, and cluttered scenes; both visual groups remain side by side for direct comparison.</p>
+      </div>
       <div class="contact-grid">
-        <figure class="figure-card"><div class="template-media ratio-16-9">XXX</div></figure>
-        <figure class="figure-card"><div class="template-media ratio-16-9">XXX</div></figure>
+        <figure class="figure-card">
+          <img src="assets1.1/contactpoint1.gif" alt="Contact point prediction examples: objects and grasp orientations" loading="lazy" onclick="openLightbox(this)">
+        </figure>
+        <figure class="figure-card">
+          <img src="assets1.1/contactpoint2.gif" alt="Contact point prediction examples: object states and cluttered scenes" loading="lazy" onclick="openLightbox(this)">
+        </figure>
       </div>
     </section>
 
     <section class="content-section">
-      <h2 class="h2">XXX</h2>
-      <div class="template-copy" aria-hidden="true"><span></span><span></span><span></span></div>
+      <h2 class="h2">Architecture</h2>
+      <div class="section-copy">
+        <p>RynnBrain 1.1 connects omni-vision perception, language instructions, spatial grounding, physical-world reasoning, and action planning in a unified model family. The same high-level capability definition is shared by the 2B, 9B, and 122B-A10B variants.</p>
+        <p>For physical execution, RynnBrain-VLA adds flow-matching action generation and a unified 81-dimensional action space that can be selectively activated for different robot embodiments.</p>
+      </div>
+
       <div class="architecture-stack">
         <article class="architecture-card">
-          <div class="architecture-card-header"><div><span class="eyebrow">XXX</span><h3>XXX</h3></div><p>XXX</p></div>
-          <div class="architecture-media"><div class="template-media ratio-wide">XXX</div></div>
+          <div class="architecture-card-header">
+            <div>
+              <span class="eyebrow">Foundation model · Figure 1</span>
+              <h3>Unified embodied perception and reasoning</h3>
+            </div>
+            <p>A shared Dense/MoE decoder consumes single-view images, multi-view observations, videos, and instructions. It produces aligned text, regions, trajectories, pointing, 3D perception, and contact signals for four core capability groups.</p>
+          </div>
+          <div class="architecture-media">
+            <img src="assets1.1/model-architecture.png" alt="RynnBrain 1.1 foundation model architecture" loading="lazy" onclick="openLightbox(this)">
+          </div>
         </article>
+
         <article class="architecture-card vla-card">
-          <div class="architecture-card-header"><div><span class="eyebrow">XXX</span><h3>XXX</h3></div><p>XXX</p></div>
-          <div class="architecture-media"><div class="template-media ratio-wide">XXX</div></div>
+          <div class="architecture-card-header">
+            <div>
+              <span class="eyebrow">Vision-language-action policy</span>
+              <h3>One policy interface for heterogeneous robots</h3>
+            </div>
+            <p>RynnBrain acts as the visual-language backbone while a denoising head predicts action chunks. Embodiment-specific masks activate compatible arm, gripper, hand, torso, and head dimensions without forcing incompatible controllers to share the same low-level action format.</p>
+          </div>
+          <div class="architecture-media">
+            <img src="assets1.1/vla-architecture.png" alt="RynnBrain-VLA architecture and unified action space" loading="lazy" onclick="openLightbox(this)">
+          </div>
         </article>
       </div>
     </section>
+
+    <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+      <img id="lightbox-img" src="" alt="Fullscreen">
+    </div>
 
     <section class="content-section">
-      <h2 class="h2">XXX</h2>
-      <div class="template-copy" aria-hidden="true"><span></span><span></span><span></span></div>
+      <h2 class="h2">Real-Robot Results</h2>
+      <div class="section-copy">
+        <p>RynnBrain-VLA is deployed on Unitree G1, Astribot-S1, and Tianji-Wuji to test whole-body, bimanual, and dexterous manipulation in the physical world. The evaluation spans furniture interaction, food preparation, table service, and other long-horizon tasks.</p>
+        <p>Each task is evaluated over 20 randomized trials with both process quality and final success recorded. Cross-embodiment metrics and the controlled comparison are summarized first, followed by a compact overview of all real-robot tasks.</p>
+      </div>
+
       <div class="real-analysis-grid">
         <aside class="real-insight-card">
-          <div class="real-insight-copy"><span class="eyebrow">XXX</span><h3>XXX</h3><p>XXX</p></div>
-          <div class="metric-grid" aria-label="XXX">
-            <div class="metric"><strong>XXX</strong><span>XXX</span></div>
-            <div class="metric"><strong>XXX</strong><span>XXX</span></div>
-            <div class="metric"><strong>XXX</strong><span>XXX</span></div>
-            <div class="metric"><strong>XXX</strong><span>XXX</span></div>
+          <div class="real-insight-copy">
+            <span class="eyebrow">Cross-embodiment evaluation</span>
+            <h3>Stable execution across three robot platforms</h3>
+            <p>The jointly trained generalist reaches a 94.14% average process score and a 91.67% final success rate across the controlled real-robot tasks.</p>
+          </div>
+          <div class="metric-grid" aria-label="Real-robot evaluation highlights">
+            <div class="metric"><strong>3</strong><span>Robot platforms</span></div>
+            <div class="metric"><strong>20</strong><span>Trials per task</span></div>
+            <div class="metric"><strong>94.14%</strong><span>Generalist process score</span></div>
+            <div class="metric"><strong>91.67%</strong><span>Generalist success rate</span></div>
           </div>
         </aside>
+
         <article class="real-table-card">
-          <div class="real-table-header"><div><span class="eyebrow">XXX</span><h3>XXX</h3></div><p>XXX</p></div>
-          <div class="real-table-media"><div class="template-media ratio-wide">XXX</div></div>
+          <div class="real-table-header">
+            <div>
+              <span class="eyebrow">Controlled comparison</span>
+              <h3>Embodied pretraining strengthens the VLA policy</h3>
+            </div>
+            <p>With the same demonstrations and post-training setup, RynnBrain-VLA reaches 91.28% process score and 86.67% success, compared with 68.33% and 60.00% for Qwen-Based-VLA. Joint multi-task and multi-embodiment training further improves the averages to 94.14% and 91.67%.</p>
+          </div>
+          <div class="real-table-media">
+            <img src="assets1.1/real-robo-results-compare.png" alt="RynnBrain-VLA quantitative comparison on real robots" loading="lazy" onclick="openLightbox(this)">
+          </div>
         </article>
       </div>
+
       <div class="real-overview-layout">
-        <figure class="figure-card real-overview-card"><div class="template-media ratio-wide">XXX</div><figcaption class="figure-caption">XXX</figcaption></figure>
+        <figure class="figure-card real-overview-card">
+          <img src="assets1.1/real-robot-results.png" alt="RynnBrain-VLA results across all real-robot tasks" loading="lazy" onclick="openLightbox(this)">
+          <figcaption class="figure-caption">Nine real-world tasks across three heterogeneous robot platforms.</figcaption>
+        </figure>
       </div>
     </section>
 
+    <!-- BibTeX -->
     <section>
-      <h2 class="h2">XXX</h2>
-      <div class="panel bib-wrap"><div class="template-media">XXX</div></div>
+      <h2 class="h2">BibTeX</h2>
+      <div class="panel bib-wrap">
+        <div class="bib-head">
+          <button class="copy-btn" id="copyBib" type="button">
+            <i class="fa-regular fa-copy"></i> Copy
+          </button>
+          <span id="copyHint" style="color:var(--muted); font-weight:750;"></span>
+        </div>
+
+       <pre id="bibtexBlock"><code>@article{rynnbrain2026,
+  title   = {RynnBrain 1.1: Towards More Capable and Generalizable Embodied Foundation Model},
+  author  = {Kehan Li and Bohan Hou and Minghao Zhu and Tianyi Zhang and Zesen Cheng and Zhikai Wang and Sicong Leng and Xin Li and Xiao Lin and Biying Yao and Minghua Zeng and Jiangpin Liu and Ronghao Dang and Jiayan Guo and Siteng Huang and Haoyu Zhao and Heng Ping and Yaxi Zhao and Kexiang Wang and Shengke Xue and Jiahao Tang and Yulei Wang and Zejing Wang and Jianwei Gao and Shijian Lu and Chengju Liu and Jianfei Yang and Mingxiu Chen and Deli Zhao},
+  year    = {2026}
+}</code></pre>
+      </div>
     </section>
 
-    <div class="footer">XXX</div>
+    <div class="footer">
+      © <span id="year"></span> RynnBrain Team, DAMO Academy, Alibaba Group
+    </div>
   </main>
 
   <script>
+    /* =========================
+       1. 图片灯箱 (Lightbox) 逻辑
+    ========================= */
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightbox-img');
+
+    function openLightbox(imgElement) {
+      if(lightbox && lightboxImg) {
+        lightboxImg.src = imgElement.src;
+        lightbox.classList.add('active');
+      }
+    }
+
+    function closeLightbox() {
+      if(lightbox) lightbox.classList.remove('active');
+    }
+    
+    if(lightbox) {
+      // 点击背景关闭
+      lightbox.addEventListener('click', (e) => {
+        if (e.target === lightbox) closeLightbox();
+      });
+      // 按 ESC 关闭
+      document.addEventListener('keydown', (e) => {
+        if (e.key === "Escape") closeLightbox();
+      });
+    }
+
+    /* =========================
+       2. 主题切换逻辑
+    ========================= */
     const THEME_KEY = "theme";
     const htmlEl = document.documentElement;
     const themeHint = document.getElementById("themeHint");
     const themeBtn = document.getElementById("toggleTheme");
-    function applyTheme(mode) {
-      if (mode === "auto") {
+
+    function applyTheme(mode){
+      if(mode === "auto"){
         htmlEl.removeAttribute("data-theme");
-        themeHint.textContent = "Auto";
-      } else {
+        if(themeHint) themeHint.textContent = "Auto";
+      }else{
         htmlEl.setAttribute("data-theme", mode);
-        themeHint.textContent = mode === "dark" ? "Night" : "Light";
+        if(themeHint) themeHint.textContent = mode === "dark" ? "Night" : "Light";
       }
     }
-    function getNextTheme(cur) {
-      if (cur === "auto") return "dark";
-      if (cur === "dark") return "light";
+
+    function getNextTheme(cur){
+      if(cur === "auto") return "dark";
+      if(cur === "dark") return "light";
       return "auto";
     }
-    applyTheme(localStorage.getItem(THEME_KEY) || "auto");
-    themeBtn.addEventListener("click", () => {
-      const next = getNextTheme(localStorage.getItem(THEME_KEY) || "auto");
-      localStorage.setItem(THEME_KEY, next);
-      applyTheme(next);
-    });
+
+    // 初始化
+    const savedTheme = localStorage.getItem(THEME_KEY) || "auto";
+    applyTheme(savedTheme);
+
+    if(themeBtn){
+      themeBtn.addEventListener("click", () => {
+        const cur = localStorage.getItem(THEME_KEY) || "auto";
+        const next = getNextTheme(cur);
+        localStorage.setItem(THEME_KEY, next);
+        applyTheme(next);
+      });
+    }
+
+    /* =========================
+       4. BibTeX 复制功能
+    ========================= */
+    const yearSpan = document.getElementById("year");
+    if(yearSpan) yearSpan.textContent = new Date().getFullYear();
+
+    const copyBtn = document.getElementById("copyBib");
+    const bibBlock = document.getElementById("bibtexBlock");
+    const copyHint = document.getElementById("copyHint");
+
+    if(copyBtn && bibBlock){
+      copyBtn.addEventListener("click", async () => {
+        const text = bibBlock.innerText.trim();
+        try{
+          await navigator.clipboard.writeText(text);
+          if(copyHint) copyHint.textContent = "Copied!";
+          setTimeout(() => { if(copyHint) copyHint.textContent=""; }, 1500);
+        }catch(e){
+          console.error("Copy failed", e);
+        }
+      });
+    }
+
   </script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
