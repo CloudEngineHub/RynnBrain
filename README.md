@@ -1,6 +1,6 @@
 # RynnBrain 1.1
 <p align="center">
-<img src="./cookbooks/assets/images/logo.png" style="width: 50%; height: auto;">
+<img src="./cookbooks/assets/images/logo.png" style="width: 60%; height: auto;">
 </p>
 
 <p align="center"><i>Towards More Capable and Generalizable Embodied Foundation Models</i></p>
@@ -22,7 +22,7 @@
 ## Introduction
   We present **RynnBrain 1.1**, a systematic upgrade of RynnBrain for embodied intelligence. RynnBrain 1.1 is released in three scales: **2B**, **9B**, and **122B-A10B**, extending the model family from compact dense models to its first 122B-level sparse-MoE model.
 
-### What's New in 1.1 🚀
+## What's New in 1.1 🚀
 * **Unified Embodied Scaling to 122B**: 
 Establishes the first embodied brain model at the 122B scale under a unified training recipe shared across 2B, 9B, and 122B-A10B, enabling a systematic study of how embodied cognition, spatial reasoning, grounding, and planning evolve with scale.
 * **Real-robot VLA transfer**: 
@@ -34,7 +34,7 @@ Introduces explicit 3D-grounded training and a new contact point prediction task
 <img src="./cookbooks/assets/intro.png" style="width: 90%; height: auto;">
 </p> -->
 
-### Model Architecture
+## Model Architecture
 RynnBrain 1.1 adopts a unified decoder-only vision-language architecture across all scales, supporting both dense and sparse-MoE variants. It encodes omni-vision inputs with language instructions and produces aligned outputs — text, pointing sequences, 3D perception, and contact signals — enabling egocentric understanding, spatio-temporal grounding, physical-world reasoning, and fine-grained planning.
 
 <p align="center">
