@@ -1,0 +1,1693 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="theme-color" content="#0b0b0f" />
+  <meta name="description" content="RynnBrain 1.1: Towards More Capable and Generalizable Embodied Foundation Model" />
+  <title>RynnBrain 1.1: Towards More Capable and Generalizable Embodied Foundation Model</title>
+  <link rel="icon" href="assets/head.png" type="image/png" />
+  <!-- 图标库（按钮图标用） -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
+  <style>
+    .dropdown-menu::before {
+  content: "";
+  position: absolute;
+  top: -20px; /* 向上延伸 20px 填补空隙 */
+  left: 0;
+  width: 100%;
+  height: 20px;
+  /* background: red; 测试时可以取消注释看看这个隐形桥的位置 */
+}
+  /* =========================
+   下拉菜单按钮样式
+========================= */
+/* 1. 容器：用来包裹按钮和菜单 */
+.pill-dropdown {
+  position: relative; /* 关键：让子菜单相对于它定位 */
+  display: inline-block;
+}
+
+/* 2. 触发按钮（原本的 pill 样式微调） */
+.pill-dropdown .pill.trigger {
+  cursor: default; /* 鼠标放上去不显示手型，或者保留 pointer */
+  padding-right: 12px; /* 给右边的小箭头留点空间 */
+}
+
+/* 3. 下拉菜单本体 (默认隐藏) */
+.dropdown-menu {
+  display: none; /* 默认不显示 */
+  position: absolute;
+  top: 110%; /* 在按钮正下方，留一点点缝隙 */
+  left: 50%;
+  transform: translateX(-50%); /* 水平居中 */
+  background: var(--panel); /* 跟随主题背景 */
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 6px;
+  min-width: 140px; /* 菜单最小宽度 */
+  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+  z-index: 100; /* 保证浮在最上面 */
+  backdrop-filter: blur(12px); /* 磨砂玻璃效果 */
+  text-align: left;
+}
+
+/* 4. 鼠标悬停在容器上时，显示菜单 */
+.pill-dropdown:hover .dropdown-menu {
+  display: block;
+  animation: fadeIn 0.2s ease;
+}
+
+/* 5. 菜单里的子按钮样式 */
+.dropdown-menu a {
+  display: block;
+  padding: 8px 12px;
+  color: var(--text);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  border-radius: 8px;
+  transition: background 0.2s;
+  white-space: nowrap; /* 防止文字换行 */
+}
+
+.dropdown-menu a:hover {
+  background: rgba(127, 127, 127, 0.15); /* 鼠标悬停变色 */
+  color: var(--text);
+}
+
+/* 简单的淡入动画 */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translate(-50%, -10px); }
+  to { opacity: 1; transform: translate(-50%, 0); }
+}
+    /* === 新增：3列布局样式 === */
+.carousel.three-col .demo-card {
+  /* 计算公式：(100% - 2个间隙) / 3 */
+  flex: 0 0 calc((100% - 36px) / 3);
+}
+
+/* 手机端依然强制单列，防止太挤 */
+@media (max-width: 768px) {
+  .carousel.three-col .demo-card {
+    flex: 0 0 100%;
+  }
+}
+    /* 切换按钮样式 */
+.lang-switch {
+  display: flex;
+  background: color-mix(in srgb, var(--panel) 80%, transparent);
+  border: 1px solid var(--border);
+  padding: 4px;
+  border-radius: 999px;
+  backdrop-filter: blur(10px);
+}
+
+.l-btn {
+  background: transparent;
+  border: none;
+  color: var(--muted);
+  padding: 6px 18px; /* 稍微加宽一点点 */
+  border-radius: 999px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 700;
+  transition: all 0.2s ease;
+}
+
+.l-btn:hover { color: var(--text); }
+
+/* 选中状态 */
+.l-btn.active {
+  background: var(--text);
+  color: var(--bg);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+    /* =========================
+       Logo 自动切换逻辑 (Light/Dark)
+    ========================= */
+    /* 默认（亮色模式）：显示 light，隐藏 dark */
+    .corner-logos .logo-light { display: block; }
+    .corner-logos .logo-dark  { display: none; }
+
+    /* === 暗色模式触发条件 1: 系统偏好是暗色 且 没有手动强制切回亮色 === */
+    @media (prefers-color-scheme: dark) {
+      html:not([data-theme="light"]) .corner-logos .logo-light { display: none; }
+      html:not([data-theme="light"]) .corner-logos .logo-dark  { display: block; }
+    }
+
+    /* === 暗色模式触发条件 2: 手动强制暗色 (data-theme="dark") === */
+    html[data-theme="dark"] .corner-logos .logo-light { display: none; }
+    html[data-theme="dark"] .corner-logos .logo-dark  { display: block; }
+.carousel.two-col .demo-card {
+  /* 假设 gap 是 18px，那么 50% 减去 9px 刚好。减去 10px 留出一点点安全余量 */
+  flex: 0 0 calc(50% - 10px);
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+/* 关键1：取消固定的卡片占位比例，让它自适应特殊的视频比例 */
+.carousel.two-col .frame {
+  aspect-ratio: auto; /* 取消默认的 16/9 等比例限制 */
+  width: 100%;
+  height: auto;
+  background: var(--bg); /* 如果视频有黑边，可以和背景融为一体 */
+}
+
+/* 关键2：确保视频内容完整显示（contain），绝不裁切（cover） */
+.carousel.two-col .frame video {
+  width: 100%;
+  height: auto;
+  object-fit: contain; /* contain 保证完整显示所有边缘，而不是 cover 的强制填满并裁切 */
+  display: block; /* 去除底部默认的幽灵空白 */
+}
+
+/* 手机端依然保持单排，防止视频缩得太小看不清 */
+@media (max-width: 768px) {
+  .carousel.two-col .demo-card {
+    flex: 0 0 100%;
+  }
+}
+/* 手机端依然保持 1 个，防止太挤 */
+@media (max-width: 768px) {
+  .carousel.two-col .demo-card {
+    flex: 0 0 100%;
+  }
+}
+.adaptive-grid {
+  display: flex;
+  gap: 16px;
+  width: 100%;
+  /* 关键：拉伸对齐，让所有卡片高度一致（以最高的为准） */
+  align-items: stretch; 
+  justify-content: center;
+}
+
+.adaptive-grid .hitem {
+  /* 关键：平分空间 */
+  flex: 1;
+  /* 限制一下，防止单张图时变得巨大，或者为了美观 */
+  /* 如果你想强制最多3个填满，不用改这里，HTML放3个div即可 */
+  width: auto; 
+  max-width: 100%; 
+  
+  display: flex;
+  flex-direction: column;
+}
+
+/* 让图片在卡片里自适应，并加上放大镜手势 */
+.adaptive-grid .hitem img {
+  width: 100%;
+  height: 100%; /* 撑满高度 */
+  object-fit: contain; /* 保持比例，如果卡片被拉高，图片居中不裁剪 */
+  background: #fff; /* 防止透明PNG在拉伸区域显得奇怪，可选 */
+  cursor: zoom-in; /* 鼠标放上去显示放大镜 */
+  transition: opacity 0.2s;
+}
+.adaptive-grid .hitem img:hover {
+  opacity: 0.9;
+}
+
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.9); /* 背景黑一点，沉浸感强 */
+  backdrop-filter: blur(5px);      /* 背景稍微模糊 */
+  
+  /* 关键改动 1：不再用 flex 强制居中，而是允许内容溢出滚动 */
+  display: block;      
+  overflow-y: auto;   /* 开启垂直滚动条 */
+  overflow-x: hidden; /* 只有极宽的图才需要x轴滚动，通常y轴够了 */
+  
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  
+  /* 给上下留点呼吸空间，防止图片贴边 */
+  padding: 40px 0; 
+  text-align: center; /* 保证图片水平居中 */
+  cursor: zoom-out;
+}
+
+.lightbox.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.lightbox img {
+  /* 关键改动 2：宽度限制在屏幕内，但高度不限制 */
+  max-width: 90vw;  /* 宽度最多占屏幕90%，防止太宽 */
+  width: auto;      /* 保持比例 */
+  height: auto;     /* 高度自然撑开！长图就会很长 */
+  max-height: none; /* 绝对不要限制最大高度 */
+  
+  display: inline-block; /* 配合 text-align: center */
+  vertical-align: middle;
+  
+  border-radius: 4px;
+  box-shadow: 0 5px 30px rgba(0,0,0,0.5);
+  
+  /* 简单的出现动画 */
+  transform: scale(0.96);
+  transition: transform 0.3s cubic-bezier(0.2, 0, 0.2, 1);
+}
+
+.lightbox.active img {
+  transform: scale(1);
+}
+    /* =========================
+       THEME TOKENS
+       默认：跟随系统（prefers-color-scheme）
+       手动切换：html[data-theme="dark|light"]
+    ========================= */
+    :root{
+      --maxw: 1200px;
+      --radius-lg: 26px;
+      --radius-md: 18px;
+      --radius-sm: 14px;
+
+      --shadow: 0 18px 60px rgba(0,0,0,0.55);
+
+      /* 圆润字体 */
+      --font: ui-rounded, "SF Pro Rounded",
+              "Nunito", "Quicksand", system-ui, -apple-system,
+              "PingFang SC","Microsoft YaHei", sans-serif;
+    }
+
+/* 系统偏好：暗色 */
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg: #0b1020;
+    --text: rgba(255,255,255,0.94);
+    --muted: rgba(225,231,255,0.70);
+    --panel: rgba(22,31,58,0.70);
+    --panel2: rgba(27,37,68,0.55);
+    --border: rgba(167,139,250,0.22);
+    --border2: rgba(125,164,255,0.14);
+    --page-background:
+      radial-gradient(circle at 15% 10%, rgba(67,97,238,0.30), transparent 34%),
+      radial-gradient(circle at 85% 18%, rgba(147,82,255,0.24), transparent 32%),
+      radial-gradient(circle at 50% 92%, rgba(14,165,233,0.14), transparent 38%),
+      linear-gradient(145deg, #07101f 0%, #111a31 48%, #0b1020 100%);
+    --page-sheen: linear-gradient(180deg, rgba(255,255,255,0.025), rgba(4,8,22,0.12));
+    --title-gradient: linear-gradient(90deg, #b8a5ff, #ffffff, #7eb7ff);
+    --title-shadow: 0 8px 30px rgba(0,0,0,0.30);
+    --spot1: rgba(129,140,248,0.17);
+    --spot2: rgba(56,189,248,0.10);
+    --spot3: rgba(192,132,252,0.13);
+    --vignette-outer: rgba(5,8,18,0.55);
+  }
+}
+
+/* 系统偏好：亮色 */
+@media (prefers-color-scheme: light){
+  :root{
+    --bg: #f5f7fc;
+    --text: rgba(10,12,18,0.92);
+    --muted: rgba(24,31,52,0.64);
+    --panel: rgba(255,255,255,0.76);
+    --panel2: rgba(255,255,255,0.62);
+    --border: rgba(61,69,105,0.13);
+    --border2: rgba(61,69,105,0.09);
+    --page-background:
+      radial-gradient(circle at 12% 8%, rgba(99,102,241,0.13), transparent 32%),
+      radial-gradient(circle at 88% 20%, rgba(236,72,153,0.08), transparent 30%),
+      linear-gradient(140deg, #f3f6ff 0%, #fbf7fb 52%, #f4f7fb 100%);
+    --page-sheen: linear-gradient(180deg, rgba(255,255,255,0.16), rgba(255,255,255,0.02));
+    --title-gradient: linear-gradient(90deg, #263048, #111827, #315ad8);
+    --title-shadow: 0 10px 24px rgba(0,0,0,0.10);
+    --spot1: rgba(99,102,241,0.10);
+    --spot2: rgba(59,130,246,0.07);
+    --spot3: rgba(217,70,239,0.06);
+    --vignette-outer: rgba(244,247,252,0.62);
+  }
+}
+
+/* 手动强制暗色 */
+html[data-theme="dark"]{
+  --bg: #0b1020;
+  --text: rgba(255,255,255,0.94);
+  --muted: rgba(225,231,255,0.70);
+  --panel: rgba(22,31,58,0.70);
+  --panel2: rgba(27,37,68,0.55);
+  --border: rgba(167,139,250,0.22);
+  --border2: rgba(125,164,255,0.14);
+  --page-background:
+    radial-gradient(circle at 15% 10%, rgba(67,97,238,0.30), transparent 34%),
+    radial-gradient(circle at 85% 18%, rgba(147,82,255,0.24), transparent 32%),
+    radial-gradient(circle at 50% 92%, rgba(14,165,233,0.14), transparent 38%),
+    linear-gradient(145deg, #07101f 0%, #111a31 48%, #0b1020 100%);
+  --page-sheen: linear-gradient(180deg, rgba(255,255,255,0.025), rgba(4,8,22,0.12));
+  --title-gradient: linear-gradient(90deg, #b8a5ff, #ffffff, #7eb7ff);
+  --title-shadow: 0 8px 30px rgba(0,0,0,0.30);
+  --spot1: rgba(129,140,248,0.17);
+  --spot2: rgba(56,189,248,0.10);
+  --spot3: rgba(192,132,252,0.13);
+  --vignette-outer: rgba(5,8,18,0.55);
+}
+
+/* 手动强制亮色 */
+html[data-theme="light"]{
+  --bg: #f5f7fc;
+  --text: rgba(10,12,18,0.92);
+  --muted: rgba(24,31,52,0.64);
+  --panel: rgba(255,255,255,0.76);
+  --panel2: rgba(255,255,255,0.62);
+  --border: rgba(61,69,105,0.13);
+  --border2: rgba(61,69,105,0.09);
+  --page-background:
+    radial-gradient(circle at 12% 8%, rgba(99,102,241,0.13), transparent 32%),
+    radial-gradient(circle at 88% 20%, rgba(236,72,153,0.08), transparent 30%),
+    linear-gradient(140deg, #f3f6ff 0%, #fbf7fb 52%, #f4f7fb 100%);
+  --page-sheen: linear-gradient(180deg, rgba(255,255,255,0.16), rgba(255,255,255,0.02));
+  --title-gradient: linear-gradient(90deg, #263048, #111827, #315ad8);
+  --title-shadow: 0 10px 24px rgba(0,0,0,0.10);
+  --spot1: rgba(99,102,241,0.10);
+  --spot2: rgba(59,130,246,0.07);
+  --spot3: rgba(217,70,239,0.06);
+  --vignette-outer: rgba(244,247,252,0.62);
+}
+
+    *{ box-sizing:border-box; }
+    html{ scroll-behavior:smooth; }
+    body{
+      margin:0;
+      background: var(--page-background);
+      color: var(--text);
+      font-family: var(--font);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      overflow-x:hidden;
+    }
+
+    /* ===== 背景层：视频优先，失败则 fallback 图 ===== */
+.bg-layer{
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  background: var(--page-background);
+}
+
+/* ✅ 新增：背景染色罩层（随主题变黑/变白） */
+.bg-layer::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background: var(--page-sheen);
+  pointer-events:none;
+}
+
+#bg-video{
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(var(--video-brightness)) saturate(1.05);
+}
+
+.bg-fallback{
+  position:absolute;
+  inset:0;
+  background: var(--bg);
+  filter: brightness(var(--fallback-brightness)) saturate(1.05);
+  opacity: 0.92;
+  display:none;
+}
+
+.vignette{
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(80% 58% at 15% 8%, var(--spot1), transparent 70%),
+    radial-gradient(75% 58% at 85% 22%, var(--spot3), transparent 72%),
+    radial-gradient(70% 55% at 50% 88%, var(--spot2), transparent 74%),
+    linear-gradient(180deg, transparent 40%, var(--vignette-outer));
+  pointer-events:none;
+}
+
+
+    .container{
+      width: min(var(--maxw), calc(100% - 40px));
+      margin: 0 auto;
+    }
+
+    /* ===== 左上角：学校+公司 Logo ===== */
+    .corner-logos{
+      position: fixed;
+      top: 18px;
+      left: 18px;
+      z-index: 40;
+      display:flex;
+      gap: 10px;
+      align-items:center;
+      padding: 10px 12px;
+      border-radius: 999px;
+      background: color-mix(in srgb, var(--panel) 90%, transparent);
+      border: 1px solid var(--border);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+    }
+    .corner-logos img{
+      height: 26px;
+      width: auto;
+      display:block;
+      opacity: 0.95;
+      object-fit: contain;
+    }
+    .corner-logos .affiliation-logo{ height: 25px; }
+    .corner-logos .rynnbrain-nav-logo{
+      width: 124px;
+      height: 24px;
+      object-fit: cover;
+      object-position: center;
+    }
+    .brand-divider{
+      width: 1px;
+      height: 22px;
+      background: var(--border);
+    }
+    .brand-mark{
+      font-size: 14px;
+      font-weight: 900;
+      letter-spacing: 0.01em;
+      white-space: nowrap;
+    }
+    .brand-short{ display: none; }
+
+    /* ===== 右上角：主题切换按钮（默认跟随系统） ===== */
+    .theme-toggle{
+      position: fixed;
+      top: 18px;
+      right: 18px;
+      z-index: 40;
+      display:flex;
+      align-items:center;
+      gap: 10px;
+      padding: 10px 12px;
+      border-radius: 999px;
+      background: color-mix(in srgb, var(--panel) 90%, transparent);
+      border: 1px solid var(--border);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+      user-select:none;
+    }
+    .theme-btn{
+      border: 1px solid var(--border);
+      background: color-mix(in srgb, var(--panel2) 95%, transparent);
+      color: var(--text);
+      border-radius: 999px;
+      padding: 8px 12px;
+      cursor: pointer;
+      font-weight: 750;
+      display:flex;
+      align-items:center;
+      gap: 8px;
+      transition: transform .15s ease, background .2s ease;
+    }
+    .theme-btn:hover{ transform: translateY(-1px); }
+    .theme-hint{
+      font-size: 13px;
+      color: var(--muted);
+      font-weight: 650;
+      white-space: nowrap;
+    }
+
+    /* ===== Hero ===== */
+    .hero{
+      padding: 72px 0 28px;
+      text-align:center;
+      position: relative;
+    }
+
+    /* 标题区：左侧项目 logo + 右侧标题 */
+    .title-row{
+        flex-direction: column;
+
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+    .project-logo{
+      height: 128px;
+      width: auto;
+      border-radius: 16px;
+        background: transparent;
+  border: none;
+  padding: 0;
+  border-radius: 0;
+  box-shadow: none;
+    }
+
+    .title{
+      margin: 0;
+      font-size: clamp(32px, 4.1vw, 58px);
+      line-height: 1.08;
+      letter-spacing: -0.02em;
+      font-weight: 900;
+
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      color: transparent;
+        background: var(--title-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  text-shadow: var(--title-shadow);
+    }
+
+    .subtitle{
+      margin: 14px auto 20px;
+      max-width: 980px;
+      color: var(--muted);
+      font-size: 18px;
+      line-height: 1.6;
+      font-weight: 650;
+    }
+
+    .authors{
+      margin: 10px auto 8px;
+      max-width: 980px;
+      color: color-mix(in srgb, var(--text) 92%, transparent);
+      font-size: 18px;
+      font-weight: 750;
+    }
+    .authors .a{
+      display:inline-block;
+      margin: 0 10px 8px;
+      white-space: nowrap;
+    }
+
+    .aff{
+      margin: 0 auto 24px;
+      color: color-mix(in srgb, var(--text) 82%, transparent);
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    /* ===== 圆角胶囊按钮（带图标） ===== */
+    .pill-row{
+      display:flex;
+      justify-content:center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin: 18px auto 28px;
+    }
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap: 10px;
+      padding: 10px 18px;
+      border-radius: 999px;
+      text-decoration:none;
+      color: var(--text);
+      background: color-mix(in srgb, var(--panel) 92%, transparent);
+      border: 1px solid var(--border);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      box-shadow: 0 10px 40px rgba(0,0,0,0.18);
+      transition: transform .15s ease, background .2s ease, border-color .2s ease;
+      font-weight: 800;
+    }
+    .pill:hover{
+      transform: translateY(-2px);
+      background: color-mix(in srgb, var(--panel) 100%, transparent);
+      border-color: color-mix(in srgb, var(--border) 140%, transparent);
+    }
+
+    /* ===== Panels (glass) ===== */
+    .panel{
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+    .panel.soft{
+      background: var(--panel2);
+      border: 1px solid var(--border2);
+      box-shadow: 0 16px 50px rgba(0,0,0,0.25);
+    }
+
+    section{ padding: 34px 0; }
+
+    .h2{
+      margin: 0 0 16px;
+      font-size: clamp(26px, 2.6vw, 44px);
+      font-weight: 900;
+      text-align: center;
+      letter-spacing: -0.01em;
+      color: color-mix(in srgb, var(--text) 96%, transparent);
+      text-shadow: 0 10px 24px rgba(0,0,0,0.18);
+    }
+    .desc{
+      margin: 0 auto 18px;
+      max-width: 980px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 18px;
+      line-height: 1.7;
+      font-weight: 650;
+    }
+
+    /* ===== Frames ===== */
+    .frame{
+      border-radius: var(--radius-lg);
+      border: 1px solid color-mix(in srgb, var(--border) 105%, transparent);
+      overflow: hidden;
+      background: color-mix(in srgb, var(--bg) 40%, #000);
+      box-shadow: 0 18px 60px rgba(0,0,0,0.30);
+    }
+    video, img{ width: 100%; display:block; }
+    .video{
+      aspect-ratio: 16/9;
+      object-fit: cover;
+      background:#000;
+    }
+
+    /* ===== Promo video ===== */
+    .promo-wrap{
+      width: min(1100px, 100%);
+      margin: 0 auto;
+      padding: 10px;
+      border-radius: calc(var(--radius-lg) + 8px);
+      background: color-mix(in srgb, var(--panel) 95%, transparent);
+      border: 1px solid var(--border);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      box-shadow: 0 20px 70px rgba(0,0,0,0.25);
+    }
+    .promo-inner{
+      border-radius: var(--radius-lg);
+      overflow:hidden;
+      border: 1px solid var(--border);
+      background:#000;
+    }
+    .promo-inner video{
+      width: 100%;
+      aspect-ratio: 16/9;
+      object-fit: contain;
+      background:#000;
+    }
+
+    /* ===== Abstract ===== */
+    .abstract{
+      padding: 30px 30px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .abstract p{
+      margin: 0;
+      font-size: 18px;
+      line-height: 1.85;
+      color: color-mix(in srgb, var(--text) 92%, transparent);
+      text-align: left;
+      text-indent: 2em;
+      font-weight: 600;
+    }
+
+    /* =========================
+       Results: 两排横向滚动（不换行）
+    ========================= */
+    .h3-row{
+      text-align:center;
+      font-weight: 900;
+      font-size: 20px;
+      margin: 18px 0 10px;
+      color: color-mix(in srgb, var(--text) 92%, transparent);
+    }
+
+    .hscroll-wrap{
+      position: relative;
+      margin-top: 12px;
+    }
+    .hscroll{
+      display:flex;
+      gap: 16px;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      padding: 12px 4px 14px;
+      scrollbar-width: thin;
+    }
+    .hscroll::-webkit-scrollbar{ height: 10px; }
+    .hscroll::-webkit-scrollbar-thumb{
+      background: color-mix(in srgb, var(--border) 160%, transparent);
+      border-radius: 999px;
+    }
+    .hitem{
+      flex: 0 0 auto;
+      width: min(360px, 80vw);
+      scroll-snap-align: start;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border);
+      background: var(--panel2);
+      overflow:hidden;
+      box-shadow: 0 18px 60px rgba(0,0,0,0.18);
+    }
+    .hitem img{ width: 100%; display:block; }
+    .hcap{
+      padding: 10px 12px;
+      font-size: 14px;
+      color: var(--muted);
+      border-top: 1px solid var(--border2);
+      font-weight: 650;
+      text-align:center;
+    }
+
+    /* =========================
+       Demos: 三卡滑动（按钮翻页）
+    ========================= */
+    .carousel{
+      position: relative;
+      margin-top: 10px;
+    }
+
+    .carousel-viewport{
+      overflow: hidden; /* 关键：只显示 3 个宽度区域 */
+    }
+
+    .carousel-track{
+      display:flex;
+      gap: 18px;
+      will-change: transform;
+      transition: transform .35s ease;
+      padding: 10px 2px 2px;
+    }
+
+    /* 关键：一次显示 3 个 */
+    .demo-card{
+      flex: 0 0 calc((100% - 3 * 18px) / 4);
+      padding: 12px;
+      border-radius: var(--radius-lg);
+    }
+    .demo-title{
+      margin: 10px 0 2px;
+      font-weight: 900;
+      text-align:center;
+      font-size: 16px;
+    }
+    .demo-desc {
+  /* 原有样式 */
+  margin: 0 0 6px;
+  text-align: center; /* 居中对齐，如果不喜欢可以改成 left */
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 650;
+
+  /* ✅ 新增/修改以下几行来实现 Flexible 换行 */
+  white-space: normal;       /* 核心：允许文本自动换行 */
+  overflow-wrap: break-word; /* 核心：如果一行放不下，强制断行 */
+  word-wrap: break-word;     /* 兼容旧浏览器 */
+  line-height: 1.5;          /* 多行文本增加行高，防止挤在一起 */
+  height: auto;              /* 让高度自动撑开，不要限制高度 */
+}
+
+    .car-btn{
+      position:absolute;
+      top: 50%;
+      transform: translateY(-55%);
+      border: 1px solid var(--border);
+      background: color-mix(in srgb, var(--panel) 92%, transparent);
+      color: var(--text);
+      width: 46px;
+      height: 46px;
+      border-radius: 999px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      cursor:pointer;
+      z-index: 5;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.18);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      transition: transform .15s ease, opacity .2s ease;
+    }
+    .car-btn:hover{ transform: translateY(-55%) scale(1.06); }
+    .car-btn[disabled]{ opacity: .35; cursor:not-allowed; }
+
+    .car-btn.left{ left: -10px; }
+    .car-btn.right{ right: -10px; }
+
+    .car-dots{
+      display:flex;
+      justify-content:center;
+      gap: 8px;
+      margin-top: 14px;
+    }
+    .dot{
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: color-mix(in srgb, var(--border) 160%, transparent);
+      opacity: .55;
+    }
+    .dot.active{ opacity: 1; width: 18px; }
+
+    /* ===== BibTeX ===== */
+    .bib-wrap{
+      text-align:center;
+      padding: 26px 18px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .project-wordmark-hero{
+      width: clamp(300px, 36vw, 460px);
+      height: clamp(58px, 7vw, 88px);
+      object-fit: cover;
+      object-position: center;
+      margin-bottom: -2px;
+      filter: drop-shadow(0 10px 24px rgba(94,70,190,0.16));
+    }
+
+    /* ===== RynnBrain 1.1 content layouts ===== */
+    .content-section{ padding: 44px 0; }
+    .section-copy{
+      max-width: 900px;
+      margin: 0 auto 22px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 17px;
+      line-height: 1.75;
+      font-weight: 620;
+    }
+    .section-copy p{ margin: 0; }
+    .section-copy p + p{ margin-top: 8px; }
+    .eyebrow{
+      display: inline-block;
+      margin-bottom: 7px;
+      color: color-mix(in srgb, #8b7cf6 82%, var(--text));
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+    .results-grid,
+    .contact-grid{
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+    .result-card,
+    .figure-card{
+      margin: 0;
+      padding: 12px;
+      border-radius: var(--radius-lg);
+      background: color-mix(in srgb, var(--panel2) 94%, transparent);
+      border: 1px solid var(--border);
+      overflow: hidden;
+      box-shadow: 0 18px 60px rgba(0,0,0,0.18);
+    }
+    .result-card{
+      transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease;
+    }
+    .result-card:hover{
+      transform: translateY(-3px);
+      border-color: color-mix(in srgb, #8b7cf6 45%, var(--border));
+      box-shadow: 0 22px 70px rgba(24,20,70,0.20);
+    }
+    .result-card .media{
+      aspect-ratio: 16 / 9;
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      background: #fff;
+    }
+    .result-card img{
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      cursor: zoom-in;
+    }
+    .figure-card img,
+    .contact-grid img{
+      width: 100%;
+      height: auto;
+      border-radius: var(--radius-md);
+      background: #fff;
+      cursor: zoom-in;
+    }
+    .figure-card.narrow{
+      width: min(900px, 100%);
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .figure-caption{
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.5;
+      font-weight: 700;
+      text-align: center;
+    }
+    .section-panel{
+      padding: 16px;
+    }
+    .grounding-stack{
+      display: grid;
+      gap: 16px;
+    }
+    .architecture-stack{
+      display: grid;
+      gap: 22px;
+    }
+    .architecture-card,
+    .real-insight-card,
+    .real-table-card{
+      border: 1px solid var(--border);
+      background: color-mix(in srgb, var(--panel) 92%, transparent);
+      border-radius: var(--radius-lg);
+      box-shadow: 0 18px 60px rgba(0,0,0,0.18);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+    }
+    .architecture-card{ padding: 24px; }
+    .architecture-card-header{
+      display: grid;
+      grid-template-columns: minmax(260px, .78fr) minmax(0, 1.22fr);
+      gap: 28px;
+      align-items: end;
+      margin-bottom: 18px;
+    }
+    .architecture-card h3,
+    .real-insight-card h3,
+    .real-table-card h3{
+      margin: 0;
+      color: var(--text);
+      font-size: clamp(21px, 2.2vw, 30px);
+      line-height: 1.18;
+      font-weight: 900;
+    }
+    .architecture-card-header p,
+    .real-insight-card p,
+    .real-table-card p{
+      margin: 0;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.7;
+      font-weight: 620;
+    }
+    .architecture-media{
+      padding: 10px;
+      border-radius: var(--radius-md);
+      background: #fff;
+      overflow: hidden;
+    }
+    .architecture-media img{
+      width: 100%;
+      height: auto;
+      border-radius: calc(var(--radius-md) - 6px);
+      cursor: zoom-in;
+    }
+    .architecture-card.vla-card{
+      width: 100%;
+      margin: 0 auto;
+    }
+    .real-overview-layout{
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 20px;
+      align-items: stretch;
+    }
+    .real-analysis-grid + .real-overview-layout{ margin-top: 20px; }
+    .real-overview-card{
+      align-self: center;
+      padding: 10px;
+    }
+    .real-overview-card img{ border-radius: var(--radius-md); }
+    .real-analysis-grid{
+      display: grid;
+      grid-template-columns: minmax(320px, .72fr) minmax(0, 1.28fr);
+      gap: 24px;
+      align-items: start;
+      margin-top: 22px;
+      padding: 24px;
+      border: 1px solid var(--border);
+      background: color-mix(in srgb, var(--panel) 92%, transparent);
+      border-radius: var(--radius-lg);
+      box-shadow: 0 18px 60px rgba(0,0,0,0.18);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+    }
+    .real-insight-card{
+      padding: 24px;
+      display: grid;
+      grid-template-columns: minmax(300px, .85fr) minmax(0, 1.15fr);
+      gap: 30px;
+      align-items: center;
+    }
+    .real-analysis-grid .real-insight-card,
+    .real-analysis-grid .real-table-card{
+      width: 100%;
+      margin: 0;
+      padding: 0;
+      border: 0;
+      background: transparent;
+      border-radius: 0;
+      box-shadow: none;
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+    }
+    .real-analysis-grid .real-insight-card{
+      grid-template-columns: 1fr;
+      gap: 0;
+    }
+    .real-analysis-grid .real-table-card{
+      padding-left: 24px;
+      border-left: 1px solid var(--border);
+    }
+    .real-analysis-grid .real-table-header{
+      grid-template-columns: 1fr;
+      gap: 8px;
+      align-items: start;
+      margin-bottom: 14px;
+    }
+    .real-insight-card p{ margin-top: 12px; }
+    .metric-grid{
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0,1fr));
+      gap: 10px;
+      margin-top: 0;
+    }
+    .real-analysis-grid .metric-grid{ margin-top: 20px; }
+    .metric{
+      padding: 13px 12px;
+      border-radius: var(--radius-md);
+      background: color-mix(in srgb, #7765ed 12%, var(--panel2));
+      border: 1px solid color-mix(in srgb, #8b7cf6 26%, var(--border));
+    }
+    .metric strong{
+      display: block;
+      color: var(--text);
+      font-size: 22px;
+      line-height: 1.1;
+      font-weight: 950;
+    }
+    .metric span{
+      display: block;
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.3;
+      font-weight: 750;
+    }
+    .real-table-card{
+      width: 100%;
+      margin: 22px auto 0;
+      padding: 24px;
+    }
+    .real-table-header{
+      display: grid;
+      grid-template-columns: minmax(240px, .75fr) minmax(0, 1.25fr);
+      gap: 24px;
+      align-items: end;
+      margin-bottom: 18px;
+    }
+    .real-table-media{
+      padding: 12px;
+      border-radius: var(--radius-md);
+      background: #fff;
+      overflow: hidden;
+    }
+    .real-table-media img{
+      width: 100%;
+      height: auto;
+      cursor: zoom-in;
+    }
+    .bib-head{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+    .copy-btn{
+      border: 1px solid var(--border);
+      background: color-mix(in srgb, var(--panel2) 95%, transparent);
+      color: var(--text);
+      border-radius: 999px;
+      padding: 8px 14px;
+      cursor:pointer;
+      font-weight: 850;
+      display:flex;
+      align-items:center;
+      gap: 8px;
+      transition: transform .15s ease, background .2s ease;
+    }
+    .copy-btn:hover{ transform: translateY(-2px); }
+    pre{
+      margin: 0 auto;
+      text-align:left;
+      max-width: 980px;
+      background: color-mix(in srgb, var(--bg) 70%, #000);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 18px 18px;
+      overflow:auto;
+      color: color-mix(in srgb, var(--text) 95%, transparent);
+      box-shadow: 0 18px 60px rgba(0,0,0,0.18);
+    }
+    code{ font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; }
+
+    .footer{
+      padding: 46px 0 60px;
+      text-align:center;
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 650;
+    }
+
+    /* ===== Responsive ===== */
+    @media (max-width: 980px){
+      .demo-card{ flex: 0 0 calc((100% - 1 * 18px) / 2); }
+      .real-overview-card{ width: min(900px, 100%); margin: 0 auto; }
+      .real-analysis-grid{ grid-template-columns: 1fr; }
+      .real-insight-card{
+        width: 100%;
+        margin: 0 auto;
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+      .real-analysis-grid .real-table-card{
+        padding-left: 0;
+        padding-top: 24px;
+        border-left: 0;
+        border-top: 1px solid var(--border);
+      }
+      .architecture-card-header,
+      .real-table-header{ grid-template-columns: 1fr; gap: 10px; }
+    }
+    @media (max-width: 640px){
+      .container{ width: min(var(--maxw), calc(100% - 24px)); }
+      .corner-logos, .theme-toggle{
+        top: 12px;
+        padding: 8px 10px;
+      }
+      .corner-logos{ left: 12px; }
+      .theme-toggle{ right: 12px; }
+      .corner-logos img{ height: 22px; }
+      .corner-logos .affiliation-logo{ height: 17px; }
+      .corner-logos .rynnbrain-nav-logo{
+        width: 88px;
+        height: 17px;
+      }
+      .brand-divider{ height: 16px; }
+      .brand-long{ display: none; }
+      .brand-short{ display: inline; }
+      .brand-mark{ font-size: 12px; }
+      .theme-hint{ display: none; }
+      .theme-btn{
+        padding: 7px 10px;
+        font-size: 12px;
+      }
+
+      .demo-card{ flex: 0 0 100%; }
+      .car-btn.left{ left: -6px; }
+      .car-btn.right{ right: -6px; }
+      .results-grid,
+      .contact-grid{
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px;
+      }
+      .result-card,
+      .figure-card{ padding: 6px; }
+      .figure-caption{
+        margin-top: 6px;
+        font-size: 11px;
+      }
+      .section-panel{ padding: 10px; }
+      .content-section{ padding: 32px 0; }
+      .real-analysis-grid{ padding: 14px; gap: 18px; }
+      .section-copy{
+        margin-bottom: 16px;
+        font-size: 15px;
+        line-height: 1.65;
+      }
+      .architecture-card,
+      .real-insight-card,
+      .real-table-card{ padding: 14px; }
+      .architecture-card-header{ margin-bottom: 12px; }
+      .metric-grid{ margin-top: 14px; gap: 8px; }
+      .metric{ padding: 10px 8px; }
+      .metric strong{ font-size: 18px; }
+      .real-table-card{ margin-top: 14px; }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- 背景 -->
+  <div class="bg-layer"></div>
+  <div class="vignette"></div>
+
+  <!-- 左上角品牌标识 -->
+  <div class="corner-logos" aria-label="Affiliation logos">
+    <img class="logo-light affiliation-logo" src="assets/damo-logo-1.png" alt="DAMO Academy and Hupan Laboratory">
+    <img class="logo-dark affiliation-logo" src="assets/damo-logo-2.png" alt="DAMO Academy and Hupan Laboratory">
+    <span class="brand-divider" aria-hidden="true"></span>
+    <img class="rynnbrain-nav-logo" src="assets/logo_new.png" alt="RynnBrain 1.1">
+  </div>
+
+  <!-- 右上角：主题切换（默认随系统） -->
+  <div class="theme-toggle">
+    <button class="theme-btn" id="toggleTheme" type="button">
+      <i class="fa-solid fa-circle-half-stroke"></i>
+      Light / Night
+    </button>
+    <span class="theme-hint" id="themeHint">Auto</span>
+  </div>
+
+  <!-- Hero -->
+  <header class="hero">
+    <div class="container">
+      <div class="title-row">
+        <img class="project-wordmark-hero" src="assets/logo_new.png" alt="RynnBrain 1.1">
+        <h1 class="title">RynnBrain 1.1: Towards More Capable and Generalizable Embodied Foundation Model</h1>
+      </div>
+
+      <!-- <p class="subtitle">一句话简介（可选）：说明你们的贡献点 / 任务 / Benchmark。</p> -->
+
+      <div class="authors">
+        <span class="a">Ronghao Dang<sup>*,†,‡</sup></span>
+        <span class="a">Jiayan Guo<sup>*,†</sup></span>
+        <span class="a">Bohan Hou<sup>*</sup></span>
+        <span class="a">Sicong Leng<sup>*</sup></span>
+        <span class="a">Kehan Li<sup>*,†</sup></span>
+        <span class="a">Xin Li<sup>*,†</sup></span>
+        <span class="a">Jiangping Liu<sup>*</sup></span>
+        <span class="a">Yunxuan Mao<sup>*</sup></span>
+        <span class="a">Zhikai Wang<sup>*</sup></span>
+        <span class="a">Yuqian Yuan<sup>*</sup></span>
+        <span class="a">Minghao Zhu<sup>*</sup></span>
+        
+        <br class="mobile-hidden" style="display:block; margin:4px 0;">
+
+        <span class="a">Xiao Lin</span>
+        <span class="a">Yang Bai</span>
+        <span class="a">Qian Jiang</span>
+        <span class="a">Yaxi Zhao</span>
+        <span class="a">Minghua Zeng</span>
+        <span class="a">Junlong Gao</span>
+        <span class="a">Yuming Jiang</span>
+        <span class="a">Jun Cen</span>
+        <span class="a">Siteng Huang</span>
+        <span class="a">Liuyi Wang</span>
+        <span class="a">Wenqiao Zhang</span>
+        <span class="a">Chengju Liu</span>
+        <span class="a">Jianfei Yang</span>
+        <span class="a">Shijian Lu</span>
+        <span class="a">Deli Zhao</span>
+      </div>
+      
+      <div class="aff" style="font-size: 15px; margin-top: 10px; color: var(--muted);">
+        <span style="display:inline-block; margin: 0 10px;">
+          <sup>*</sup> Core contributors (alphabetical order)
+        </span>
+        <span style="display:inline-block; margin: 0 10px;">
+          <sup>†</sup> Project lead
+        </span>
+        <span style="display:inline-block; margin: 0 10px;">
+          <sup>‡</sup> Correspondence
+        </span>
+      </div>
+
+      <!-- 图标按钮 -->
+      <div class="pill-row">
+        <a class="pill" href="https://github.com/alibaba-damo-academy/RynnBrain" target="_blank" rel="noopener"><i class="fa-brands fa-github"></i> GitHub</a>
+        <a class="pill" href="assets/RynnBrain_1_1%20(3).pdf" target="_blank" rel="noopener"><i class="fa-regular fa-file-lines"></i> System Card</a>
+        <!-- <a class="pill" href="#" target="_blank" rel="noopener"><i class="fa-solid fa-book-open"></i> ArXiv(Soon)</a> -->
+        <a class="pill" href="https://huggingface.co/collections/Alibaba-DAMO-Academy/rynnbrain" target="_blank" rel="noopener"><i class="fa-solid fa-face-smile"></i> Huggingface</a>
+        <a class="pill" href="https://www.modelscope.cn/collections/DAMO_Academy/RynnBrain" target="_blank" rel="noopener"><i class="fa-regular fa-file-lines"></i>modelscope</a>
+        <a class="pill" href="https://huggingface.co/datasets/Alibaba-DAMO-Academy/RynnBrain-Bench" target="_blank" rel="noopener"><i class="fa-solid fa-face-smile"></i> Benchmark</a>
+        
+        <div class="pill-dropdown">
+          <span class="pill trigger">
+            <i class="fa-solid fa-gamepad"></i> Try <i class="fa-solid fa-caret-down" style="font-size:12px; margin-left:6px; opacity:0.6;"></i>
+          </span>
+          
+          <div class="dropdown-menu">
+            <a href="https://m.developer.damo-academy.com/allSpark/RynnBrain" target="_blank" rel="noopener">
+              <i class="fa-solid fa-cloud" style="width:20px;"></i> 乐云平台
+            </a>
+            
+            <a href="https://huggingface.co/spaces/Alibaba-DAMO-Academy/RynnBrain" target="_blank" rel="noopener">
+              <i class="fa-solid fa-face-smile" style="width:20px;"></i> HuggingFace
+            </a>
+          </div>
+        </div>
+        <div class="pill-dropdown">
+          <span class="pill trigger">
+            <i class="fa-solid fa-play-circle"></i> Video 
+            <i class="fa-solid fa-caret-down" style="font-size:12px; margin-left:6px; opacity:0.6;"></i>
+          </span>
+          
+          <div class="dropdown-menu">
+            <a href="https://www.youtube.com/watch?v=R37ygvn9Kfs" target="_blank" rel="noopener">
+              <i class="fa-brands fa-youtube" style="width:20px;"></i> YouTube
+            </a>
+            
+            <a href="https://www.bilibili.com/video/BV1imFDzpEnR/?spm_id_from=333.337.search-card.all.click&vd_source=c68c3f43edae31b3b82c1d86ab5f6ea0" target="_blank" rel="noopener">
+              <i class="fa-brands fa-bilibili" style="width:20px;"></i> Bilibili
+            </a>
+          </div>
+        </div>
+      </div>
+<!-- <h2 class="h2">宣传视频</h2> -->
+      <!-- 宣传视频  -->
+      <section>
+      <div class="container"> 
+        
+        <div class="promo-wrap"> 
+          <div class="promo-inner">
+            <video 
+              id="mainVideo" 
+              src="assets/RynnBrain1.1-intro.mov"
+              controls 
+              playsinline
+              preload="metadata">
+            </video>
+          </div>
+        </div>
+
+      </div>
+    </section>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- Abstract -->
+    <section>
+      <h2 class="h2">Abstract</h2>
+      <div class="panel abstract">
+    <p>
+      We present <strong>RynnBrain 1.1</strong>, a family of embodied foundation models spanning <strong>2B, 9B, and 122B (A10B)</strong> scales. Built on a unified spatio-temporal and physically grounded training framework, RynnBrain 1.1 demonstrates consistent gains in embodied cognition, spatial reasoning, and localization as model capacity increases. The 2B and 9B models further incorporate explicit 3D grounding supervision and contact-point prediction, enabling native language-conditioned understanding of physical space. We also develop <strong>RynnBrain-VLA</strong> with a unified action space and embodiment-specific masking, allowing heterogeneous robot data to be jointly trained within a single policy. RynnBrain-VLA is deployed on a Unitree G1 humanoid, an Astribot bimanual robot, and a Tianji-Wuji dexterous-hand system. Real-robot experiments show that embodied pretraining provides a stronger foundation than a general-purpose VLM, while joint multi-task and multi-embodiment training further improves manipulation performance.
+    </p>
+  </div>
+    </section>
+
+    <!-- RynnBrain 1.1: scaling + model results in a four-card grid -->
+    <section class="content-section">
+      <h2 class="h2">RynnBrain 1.1 Results</h2>
+      <div class="section-copy">
+        <p>RynnBrain 1.1 is evaluated at 2B, 9B, and 122B-A10B scales under one unified embodied training recipe. Performance rises consistently across general cognition, reasoning-intensive cognition, and embodied localization.</p>
+        <p>The four panels keep the scaling trend and all model-level comparisons together. Click any panel to inspect the full-resolution table.</p>
+      </div>
+
+      <div class="panel section-panel">
+        <div class="results-grid">
+          <figure class="result-card">
+            <div class="media">
+              <img src="assets/scaling-analysis.png" alt="RynnBrain 1.1 scaling analysis" loading="lazy" onclick="openLightbox(this)">
+            </div>
+            <figcaption class="figure-caption">Scaling Analysis</figcaption>
+          </figure>
+
+          <figure class="result-card">
+            <div class="media">
+              <img src="assets/2B-results.png" alt="RynnBrain 1.1 2B benchmark results" loading="lazy" onclick="openLightbox(this)">
+            </div>
+            <figcaption class="figure-caption">RynnBrain 1.1-2B</figcaption>
+          </figure>
+
+          <figure class="result-card">
+            <div class="media">
+              <img src="assets/9B-results.png" alt="RynnBrain 1.1 9B benchmark results" loading="lazy" onclick="openLightbox(this)">
+            </div>
+            <figcaption class="figure-caption">RynnBrain 1.1-9B</figcaption>
+          </figure>
+
+          <figure class="result-card">
+            <div class="media">
+              <img src="assets/122B-results.png" alt="RynnBrain 1.1 122B-A10B benchmark results" loading="lazy" onclick="openLightbox(this)">
+            </div>
+            <figcaption class="figure-caption">RynnBrain 1.1-122B-A10B</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="content-section">
+      <h2 class="h2">3D Grounding</h2>
+      <div class="section-copy">
+        <p>Explicit 3D supervision gives the compact models native language-conditioned 3D grounding. RynnBrain 1.1-9B reaches 41.12 AP@15 on SUN RGB-D and 23.44 AP3D on WildDet3D-Bench.</p>
+        <p>The gains from 2B to 9B show that metric depth, object size, orientation, and open-vocabulary spatial grounding all benefit from model scaling.</p>
+      </div>
+      <div class="grounding-stack">
+        <figure class="figure-card">
+          <img src="assets/3d-grounding-results.png" alt="RynnBrain 1.1 3D grounding results" loading="lazy" onclick="openLightbox(this)">
+          <figcaption class="figure-caption">Quantitative results of RynnBrain 1.1-2B and 9B on SUN RGB-D and WildDet3D-Bench.</figcaption>
+        </figure>
+        <figure class="figure-card">
+          <img src="assets/3d-cases.png" alt="RynnBrain 1.1 language-conditioned 3D grounding cases for a bed, table, and chair" loading="lazy" onclick="openLightbox(this)">
+          <figcaption class="figure-caption">Qualitative language-conditioned 3D box predictions across diverse indoor scenes.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="content-section">
+      <h2 class="h2">Contact Point Prediction</h2>
+      <div class="section-copy">
+        <p>Instead of predicting only an object center, RynnBrain 1.1 identifies an action-relevant contact point together with its in-plane grasp orientation. The model adapts to object geometry, state, target part, and the user instruction.</p>
+        <p>These examples cover thin objects, containers, overturned objects, and cluttered scenes; both visual groups remain side by side for direct comparison.</p>
+      </div>
+      <div class="contact-grid">
+        <figure class="figure-card">
+          <img src="assets/contactpoint1.gif" alt="Contact point prediction examples: objects and grasp orientations" loading="lazy" onclick="openLightbox(this)">
+        </figure>
+        <figure class="figure-card">
+          <img src="assets/contactpoint2.gif" alt="Contact point prediction examples: object states and cluttered scenes" loading="lazy" onclick="openLightbox(this)">
+        </figure>
+      </div>
+    </section>
+
+    <section class="content-section">
+      <h2 class="h2">Architecture</h2>
+      <div class="section-copy">
+        <p>RynnBrain 1.1 connects omni-vision perception, language instructions, spatial grounding, physical-world reasoning, and action planning in a unified model family. The same high-level capability definition is shared by the 2B, 9B, and 122B-A10B variants.</p>
+        <p>For physical execution, RynnBrain-VLA adds flow-matching action generation and a unified 81-dimensional action space that can be selectively activated for different robot embodiments.</p>
+      </div>
+
+      <div class="architecture-stack">
+        <article class="architecture-card">
+          <div class="architecture-card-header">
+            <div>
+              <span class="eyebrow">Foundation model · Figure 1</span>
+              <h3>Unified embodied perception and reasoning</h3>
+            </div>
+            <p>A shared Dense/MoE decoder consumes single-view images, multi-view observations, videos, and instructions. It produces aligned text, regions, trajectories, pointing, 3D perception, and contact signals for four core capability groups.</p>
+          </div>
+          <div class="architecture-media">
+            <img src="assets/model-architecture.png" alt="RynnBrain 1.1 foundation model architecture" loading="lazy" onclick="openLightbox(this)">
+          </div>
+        </article>
+
+        <article class="architecture-card vla-card">
+          <div class="architecture-card-header">
+            <div>
+              <span class="eyebrow">Vision-language-action policy</span>
+              <h3>One policy interface for heterogeneous robots</h3>
+            </div>
+            <p>RynnBrain acts as the visual-language backbone while a denoising head predicts action chunks. Embodiment-specific masks activate compatible arm, gripper, hand, torso, and head dimensions without forcing incompatible controllers to share the same low-level action format.</p>
+          </div>
+          <div class="architecture-media">
+            <img src="assets/vla-architecture.png" alt="RynnBrain-VLA architecture and unified action space" loading="lazy" onclick="openLightbox(this)">
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+      <img id="lightbox-img" src="" alt="Fullscreen">
+    </div>
+
+    <section class="content-section">
+      <h2 class="h2">Real-Robot Results</h2>
+      <div class="section-copy">
+        <p>RynnBrain-VLA is deployed on Unitree G1, Astribot, and Tianji-Wuji to test whole-body, bimanual, and dexterous manipulation in the physical world. The evaluation spans furniture interaction, food preparation, table service, and other long-horizon tasks.</p>
+        <p>Each task is evaluated over 20 randomized trials with both process quality and final success recorded. Cross-embodiment metrics and the controlled comparison are summarized first, followed by a compact overview of all real-robot tasks.</p>
+      </div>
+
+      <div class="real-analysis-grid">
+        <aside class="real-insight-card">
+          <div class="real-insight-copy">
+            <span class="eyebrow">Cross-embodiment evaluation</span>
+            <h3>Stable execution across three robot platforms</h3>
+            <p>A single embodied foundation model supports distinct body structures and action spaces while retaining strong long-horizon process quality and task completion.</p>
+          </div>
+          <div class="metric-grid" aria-label="Real-robot evaluation highlights">
+            <div class="metric"><strong>3</strong><span>Robot platforms</span></div>
+            <div class="metric"><strong>20</strong><span>Trials per task</span></div>
+            <div class="metric"><strong>94.74%</strong><span>Generalist process score</span></div>
+            <div class="metric"><strong>91.67%</strong><span>Generalist success rate</span></div>
+          </div>
+        </aside>
+
+        <article class="real-table-card">
+          <div class="real-table-header">
+            <div>
+              <span class="eyebrow">Controlled comparison</span>
+              <h3>Embodied pretraining strengthens the VLA policy</h3>
+            </div>
+            <p>With the same demonstrations and post-training setup, RynnBrain-VLA outperforms the Qwen VLA baseline. Joint training across embodiments further improves average process quality and final task success.</p>
+          </div>
+          <div class="real-table-media">
+            <img src="assets/real-robo-results-compare.png" alt="RynnBrain-VLA quantitative comparison on real robots" loading="lazy" onclick="openLightbox(this)">
+          </div>
+        </article>
+      </div>
+
+      <div class="real-overview-layout">
+        <figure class="figure-card real-overview-card">
+          <img src="assets/real-robot-results.png" alt="RynnBrain-VLA results across all real-robot tasks" loading="lazy" onclick="openLightbox(this)">
+          <figcaption class="figure-caption">Nine real-world tasks across three heterogeneous robot platforms.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- BibTeX -->
+    <section>
+      <h2 class="h2">BibTeX</h2>
+      <div class="panel bib-wrap">
+        <div class="bib-head">
+          <button class="copy-btn" id="copyBib" type="button">
+            <i class="fa-regular fa-copy"></i> Copy
+          </button>
+          <span id="copyHint" style="color:var(--muted); font-weight:750;"></span>
+        </div>
+
+       <pre id="bibtexBlock"><code>@article{rynnbrain2026,
+  title   = {RynnBrain 1.1: Towards More Capable and Generalizable Embodied Foundation Model},
+  author  = {Ronghao Dang and Jiayan Guo and Bohan Hou and Sicong Leng and Kehan Li and Xin Li and Jiangping Liu and Yunxuan Mao and Zhikai Wang and Yuqian Yuan and Minghao Zhu and Xiao Lin and Yang Bai and Qian Jiang and Yaxi Zhao and Minghua Zeng and Junlong Gao and Yuming Jiang and Jun Cen and Siteng Huang and Liuyi Wang and Wenqiao Zhang and Chengju Liu and Jianfei Yang and Shijian Lu and Deli Zhao},
+  year    = {2026}
+}</code></pre>
+      </div>
+    </section>
+
+    <div class="footer">
+      © <span id="year"></span> RynnBrain Team, DAMO Academy, Alibaba Group
+    </div>
+  </main>
+
+  <script>
+    /* =========================
+       1. 图片灯箱 (Lightbox) 逻辑
+    ========================= */
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightbox-img');
+
+    function openLightbox(imgElement) {
+      if(lightbox && lightboxImg) {
+        lightboxImg.src = imgElement.src;
+        lightbox.classList.add('active');
+      }
+    }
+
+    function closeLightbox() {
+      if(lightbox) lightbox.classList.remove('active');
+    }
+    
+    if(lightbox) {
+      // 点击背景关闭
+      lightbox.addEventListener('click', (e) => {
+        if (e.target === lightbox) closeLightbox();
+      });
+      // 按 ESC 关闭
+      document.addEventListener('keydown', (e) => {
+        if (e.key === "Escape") closeLightbox();
+      });
+    }
+
+    /* =========================
+       2. 主题切换逻辑
+    ========================= */
+    const THEME_KEY = "theme";
+    const htmlEl = document.documentElement;
+    const themeHint = document.getElementById("themeHint");
+    const themeBtn = document.getElementById("toggleTheme");
+
+    function applyTheme(mode){
+      if(mode === "auto"){
+        htmlEl.removeAttribute("data-theme");
+        if(themeHint) themeHint.textContent = "Auto";
+      }else{
+        htmlEl.setAttribute("data-theme", mode);
+        if(themeHint) themeHint.textContent = mode === "dark" ? "Night" : "Light";
+      }
+    }
+
+    function getNextTheme(cur){
+      if(cur === "auto") return "dark";
+      if(cur === "dark") return "light";
+      return "auto";
+    }
+
+    // 初始化
+    const savedTheme = localStorage.getItem(THEME_KEY) || "auto";
+    applyTheme(savedTheme);
+
+    if(themeBtn){
+      themeBtn.addEventListener("click", () => {
+        const cur = localStorage.getItem(THEME_KEY) || "auto";
+        const next = getNextTheme(cur);
+        localStorage.setItem(THEME_KEY, next);
+        applyTheme(next);
+      });
+    }
+
+    /* =========================
+       4. BibTeX 复制功能
+    ========================= */
+    const yearSpan = document.getElementById("year");
+    if(yearSpan) yearSpan.textContent = new Date().getFullYear();
+
+    const copyBtn = document.getElementById("copyBib");
+    const bibBlock = document.getElementById("bibtexBlock");
+    const copyHint = document.getElementById("copyHint");
+
+    if(copyBtn && bibBlock){
+      copyBtn.addEventListener("click", async () => {
+        const text = bibBlock.innerText.trim();
+        try{
+          await navigator.clipboard.writeText(text);
+          if(copyHint) copyHint.textContent = "Copied!";
+          setTimeout(() => { if(copyHint) copyHint.textContent=""; }, 1500);
+        }catch(e){
+          console.error("Copy failed", e);
+        }
+      });
+    }
+
+  </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
