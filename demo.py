@@ -23,7 +23,7 @@ processor = AutoProcessor.from_pretrained(MODEL_PATH)
 
 
 INSTRUCTIONS = """
-# Rynn Brain Demo
+# RynnBrain1.1 Demo
 
 ## Supported Visual Prompt Types
 - **Object**: Define objects using two points (top-left and bottom-right of bounding box).
