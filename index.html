@@ -22,6 +22,7 @@
   /* =========================
    下拉菜单按钮样式
 ========================= */
+/* 1. 容器：用来包裹按钮和菜单 */
 .pill-dropdown {
   position: relative; /* 关键：让子菜单相对于它定位 */
   display: inline-block;
@@ -1241,8 +1242,104 @@ html[data-theme="light"]{
   </style>
 
   <style>
+    .template-only {
+      --texture-opacity: .24;
+      --texture-blend: multiply;
+    }
+    .template-only .bg-layer {
+      overflow: hidden;
+      background: var(--page-background);
+      background-size: 150% 120%, 158% 120%, 148% 120%, 108% 108%;
+      animation: template-flow-drift 10s ease-in-out infinite alternate;
+      will-change: background-position, transform;
+    }
+    .template-only .bg-layer::before {
+      content: "";
+      display: block;
+      position: absolute;
+      inset: -18% -22%;
+      background:
+        radial-gradient(circle at 50% 50%, rgba(99, 102, 241, .68) 0 13%, rgba(99, 102, 241, .30) 30%, transparent 68%),
+        radial-gradient(circle at 50% 50%, rgba(147, 82, 255, .62) 0 15%, rgba(147, 82, 255, .27) 34%, transparent 70%),
+        radial-gradient(circle at 50% 50%, rgba(14, 165, 233, .52) 0 12%, rgba(14, 165, 233, .22) 29%, transparent 66%),
+        radial-gradient(circle at 50% 50%, rgba(99, 102, 241, .50) 0 16%, rgba(147, 82, 255, .20) 36%, transparent 72%),
+        radial-gradient(circle at 50% 50%, rgba(147, 82, 255, .46) 0 12%, rgba(99, 102, 241, .18) 32%, transparent 68%);
+      background-size: 34% 46%, 29% 39%, 40% 52%, 31% 43%, 24% 34%;
+      background-position: -8% 12%, 24% 70%, 58% 4%, 88% 62%, 46% 43%;
+      background-repeat: no-repeat;
+      opacity: var(--texture-opacity);
+      mix-blend-mode: var(--texture-blend);
+      filter: url(#template-water-distortion) blur(18px) saturate(112%);
+      transform: scale(1.06);
+      animation: template-bubble-float 9s ease-in-out infinite alternate;
+      will-change: background-position, transform;
+    }
+    .template-only .bg-layer::after {
+      background: var(--page-sheen);
+      background-size: 170% 170%;
+      animation: template-flow-sheen 8s ease-in-out infinite alternate;
+    }
+    @keyframes template-flow-drift {
+      0% {
+        background-position: -8% 10%, 108% 18%, 4% 90%, 50% 50%;
+        transform: scale(1.04) translate3d(-1%, 0, 0);
+      }
+      50% {
+        background-position: 28% 10%, 76% 18%, 38% 90%, 50% 50%;
+        transform: scale(1.06) translate3d(.5%, 0, 0);
+      }
+      100% {
+        background-position: 66% 10%, 42% 18%, 72% 90%, 50% 50%;
+        transform: scale(1.05) translate3d(1%, 0, 0);
+      }
+    }
+    @keyframes template-flow-sheen {
+      0%   { background-position: 0% 50%; }
+      100% { background-position: 100% 50%; }
+    }
+    @keyframes template-bubble-float {
+      0% {
+        background-position: -8% 12%, 24% 70%, 58% 4%, 88% 62%, 46% 43%;
+        transform: scale(1.06) translate3d(-1%, 0, 0);
+      }
+      46% {
+        background-position: 12% 27%, 37% 55%, 48% 20%, 74% 44%, 58% 68%;
+        transform: scale(1.10) translate3d(1%, -1%, 0);
+      }
+      100% {
+        background-position: 25% 6%, 17% 43%, 70% 34%, 58% 72%, 78% 30%;
+        transform: scale(1.07) translate3d(0, 1%, 0);
+      }
+    }
+    html[data-theme="dark"] .template-only {
+      --texture-opacity: .38;
+      --texture-blend: screen;
+    }
+    html[data-theme="light"] .template-only {
+      --texture-opacity: .24;
+      --texture-blend: multiply;
+    }
+    @media (prefers-color-scheme: dark) {
+      html:not([data-theme="light"]) .template-only {
+        --texture-opacity: .38;
+        --texture-blend: screen;
+      }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .template-only .bg-layer,
+      .template-only .bg-layer::before,
+      .template-only .bg-layer::after { animation: none; }
+      .template-only .bg-layer::before { filter: blur(18px); }
+    }
     .template-only .corner-logos,
     .template-only .pill-row { display: none; }
+    .template-wave-filter {
+      position: fixed;
+      width: 0;
+      height: 0;
+      overflow: hidden;
+      pointer-events: none;
+    }
     .template-only .hero { padding-top: 96px; }
     .template-media {
       width: 100%;
@@ -1294,6 +1391,36 @@ html[data-theme="light"]{
 
 <body class="template-only">
   <div class="bg-layer"></div>
+  <svg class="template-wave-filter" aria-hidden="true" focusable="false">
+    <defs>
+      <filter id="template-water-distortion" x="-25%" y="-35%" width="150%" height="170%">
+        <feTurbulence
+          type="fractalNoise"
+          baseFrequency="0.006 0.014"
+          numOctaves="2"
+          seed="7"
+          result="waterNoise">
+          <animate
+            attributeName="baseFrequency"
+            dur="7s"
+            values="0.006 0.014; 0.009 0.019; 0.005 0.012; 0.006 0.014"
+            repeatCount="indefinite" />
+        </feTurbulence>
+        <feDisplacementMap
+          in="SourceGraphic"
+          in2="waterNoise"
+          scale="40"
+          xChannelSelector="R"
+          yChannelSelector="G">
+          <animate
+            attributeName="scale"
+            dur="6.2s"
+            values="28; 48; 36; 28"
+            repeatCount="indefinite" />
+        </feDisplacementMap>
+      </filter>
+    </defs>
+  </svg>
   <div class="vignette"></div>
 
   <div class="theme-toggle">
