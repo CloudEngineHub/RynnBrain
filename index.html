@@ -4,9 +4,8 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <meta name="theme-color" content="#0b0b0f" />
-  <meta name="description" content="RynnBrain 1.1: Towards More Capable and Generalizable Embodied Foundation Model" />
+  <meta name="description" content="XXX" />
   <title>RynnBrain 1.1: Towards More Capable and Generalizable Embodied Foundation Model</title>
-  <link rel="icon" href="assets/head.png" type="image/png" />
   <!-- 图标库（按钮图标用） -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 
@@ -23,7 +22,6 @@
   /* =========================
    下拉菜单按钮样式
 ========================= */
-/* 1. 容器：用来包裹按钮和菜单 */
 .pill-dropdown {
   position: relative; /* 关键：让子菜单相对于它定位 */
   display: inline-block;
@@ -1241,22 +1239,63 @@ html[data-theme="light"]{
       .real-table-card{ margin-top: 14px; }
     }
   </style>
+
+  <style>
+    .template-only .corner-logos,
+    .template-only .pill-row { display: none; }
+    .template-only .hero { padding-top: 96px; }
+    .template-media {
+      width: 100%;
+      min-height: 150px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: var(--radius-md);
+      border: 1px dashed color-mix(in srgb, var(--border) 180%, transparent);
+      background:
+        linear-gradient(135deg,
+          color-mix(in srgb, #7765ed 10%, var(--panel2)),
+          color-mix(in srgb, #38bdf8 7%, var(--panel2)));
+      color: var(--muted);
+      font-size: 15px;
+      font-weight: 900;
+      letter-spacing: .16em;
+    }
+    .template-hero-media {
+      width: min(1080px, 100%);
+      min-height: 430px;
+      margin: 28px auto 0;
+      border-radius: var(--radius-xl);
+    }
+    .template-media.ratio-16-9 { aspect-ratio: 16 / 9; min-height: 0; }
+    .template-media.ratio-wide { aspect-ratio: 3.2 / 1; min-height: 0; }
+    .template-media.ratio-ultrawide { aspect-ratio: 4 / 1; min-height: 0; }
+    .result-card .media > .template-media { height: 100%; }
+    .template-copy { max-width: 840px; margin: 0 auto 22px; }
+    .template-copy span {
+      display: block;
+      height: 12px;
+      margin: 9px auto;
+      border-radius: 999px;
+      background: color-mix(in srgb, var(--border) 165%, transparent);
+    }
+    .template-copy span:nth-child(1) { width: 92%; }
+    .template-copy span:nth-child(2) { width: 78%; }
+    .template-copy span:nth-child(3) { width: 58%; }
+    .template-only .abstract { min-height: 150px; display: grid; place-items: center; }
+    .template-only .architecture-media,
+    .template-only .real-table-media { background: transparent; padding: 0; }
+    @media (max-width: 640px) {
+      .template-hero-media { min-height: 220px; }
+      .template-media { font-size: 12px; }
+    }
+  </style>
 </head>
 
-<body>
-  <!-- 背景 -->
+<body class="template-only">
   <div class="bg-layer"></div>
   <div class="vignette"></div>
 
-  <!-- 左上角品牌标识 -->
-  <div class="corner-logos" aria-label="Affiliation logos">
-    <img class="logo-light affiliation-logo" src="assets/damo-logo-1.png" alt="DAMO Academy and Hupan Laboratory">
-    <img class="logo-dark affiliation-logo" src="assets/damo-logo-2.png" alt="DAMO Academy and Hupan Laboratory">
-    <span class="brand-divider" aria-hidden="true"></span>
-    <img class="rynnbrain-nav-logo" src="assets/logo_new.png" alt="RynnBrain 1.1">
-  </div>
-
-  <!-- 右上角：主题切换（默认随系统） -->
   <div class="theme-toggle">
     <button class="theme-btn" id="toggleTheme" type="button">
       <i class="fa-solid fa-circle-half-stroke"></i>
@@ -1265,429 +1304,123 @@ html[data-theme="light"]{
     <span class="theme-hint" id="themeHint">Auto</span>
   </div>
 
-  <!-- Hero -->
   <header class="hero">
     <div class="container">
       <div class="title-row">
-        <img class="project-wordmark-hero" src="assets/logo_new.png" alt="RynnBrain 1.1">
         <h1 class="title">RynnBrain 1.1: Towards More Capable and Generalizable Embodied Foundation Model</h1>
       </div>
-
-      <!-- <p class="subtitle">一句话简介（可选）：说明你们的贡献点 / 任务 / Benchmark。</p> -->
-
-      <div class="authors">
-        <span class="a">Ronghao Dang<sup>*,†,‡</sup></span>
-        <span class="a">Jiayan Guo<sup>*,†</sup></span>
-        <span class="a">Bohan Hou<sup>*</sup></span>
-        <span class="a">Sicong Leng<sup>*</sup></span>
-        <span class="a">Kehan Li<sup>*,†</sup></span>
-        <span class="a">Xin Li<sup>*,†</sup></span>
-        <span class="a">Jiangping Liu<sup>*</sup></span>
-        <span class="a">Yunxuan Mao<sup>*</sup></span>
-        <span class="a">Zhikai Wang<sup>*</sup></span>
-        <span class="a">Yuqian Yuan<sup>*</sup></span>
-        <span class="a">Minghao Zhu<sup>*</sup></span>
-        
-        <br class="mobile-hidden" style="display:block; margin:4px 0;">
-
-        <span class="a">Xiao Lin</span>
-        <span class="a">Yang Bai</span>
-        <span class="a">Qian Jiang</span>
-        <span class="a">Yaxi Zhao</span>
-        <span class="a">Minghua Zeng</span>
-        <span class="a">Junlong Gao</span>
-        <span class="a">Yuming Jiang</span>
-        <span class="a">Jun Cen</span>
-        <span class="a">Siteng Huang</span>
-        <span class="a">Liuyi Wang</span>
-        <span class="a">Wenqiao Zhang</span>
-        <span class="a">Chengju Liu</span>
-        <span class="a">Jianfei Yang</span>
-        <span class="a">Shijian Lu</span>
-        <span class="a">Deli Zhao</span>
-      </div>
-      
-      <div class="aff" style="font-size: 15px; margin-top: 10px; color: var(--muted);">
-        <span style="display:inline-block; margin: 0 10px;">
-          <sup>*</sup> Core contributors (alphabetical order)
-        </span>
-        <span style="display:inline-block; margin: 0 10px;">
-          <sup>†</sup> Project lead
-        </span>
-        <span style="display:inline-block; margin: 0 10px;">
-          <sup>‡</sup> Correspondence
-        </span>
-      </div>
-
-      <!-- 图标按钮 -->
-      <div class="pill-row">
-        <a class="pill" href="https://github.com/alibaba-damo-academy/RynnBrain" target="_blank" rel="noopener"><i class="fa-brands fa-github"></i> GitHub</a>
-        <a class="pill" href="assets/RynnBrain_1_1%20(3).pdf" target="_blank" rel="noopener"><i class="fa-regular fa-file-lines"></i> System Card</a>
-        <!-- <a class="pill" href="#" target="_blank" rel="noopener"><i class="fa-solid fa-book-open"></i> ArXiv(Soon)</a> -->
-        <a class="pill" href="https://huggingface.co/collections/Alibaba-DAMO-Academy/rynnbrain" target="_blank" rel="noopener"><i class="fa-solid fa-face-smile"></i> Huggingface</a>
-        <a class="pill" href="https://www.modelscope.cn/collections/DAMO_Academy/RynnBrain" target="_blank" rel="noopener"><i class="fa-regular fa-file-lines"></i>modelscope</a>
-        <a class="pill" href="https://huggingface.co/datasets/Alibaba-DAMO-Academy/RynnBrain-Bench" target="_blank" rel="noopener"><i class="fa-solid fa-face-smile"></i> Benchmark</a>
-        
-        <div class="pill-dropdown">
-          <span class="pill trigger">
-            <i class="fa-solid fa-gamepad"></i> Try <i class="fa-solid fa-caret-down" style="font-size:12px; margin-left:6px; opacity:0.6;"></i>
-          </span>
-          
-          <div class="dropdown-menu">
-            <a href="https://m.developer.damo-academy.com/allSpark/RynnBrain" target="_blank" rel="noopener">
-              <i class="fa-solid fa-cloud" style="width:20px;"></i> 乐云平台
-            </a>
-            
-            <a href="https://huggingface.co/spaces/Alibaba-DAMO-Academy/RynnBrain" target="_blank" rel="noopener">
-              <i class="fa-solid fa-face-smile" style="width:20px;"></i> HuggingFace
-            </a>
-          </div>
-        </div>
-        <div class="pill-dropdown">
-          <span class="pill trigger">
-            <i class="fa-solid fa-play-circle"></i> Video 
-            <i class="fa-solid fa-caret-down" style="font-size:12px; margin-left:6px; opacity:0.6;"></i>
-          </span>
-          
-          <div class="dropdown-menu">
-            <a href="https://www.youtube.com/watch?v=R37ygvn9Kfs" target="_blank" rel="noopener">
-              <i class="fa-brands fa-youtube" style="width:20px;"></i> YouTube
-            </a>
-            
-            <a href="https://www.bilibili.com/video/BV1imFDzpEnR/?spm_id_from=333.337.search-card.all.click&vd_source=c68c3f43edae31b3b82c1d86ab5f6ea0" target="_blank" rel="noopener">
-              <i class="fa-brands fa-bilibili" style="width:20px;"></i> Bilibili
-            </a>
-          </div>
-        </div>
-      </div>
-<!-- <h2 class="h2">宣传视频</h2> -->
-      <!-- 宣传视频  -->
-      <section>
-      <div class="container"> 
-        
-        <div class="promo-wrap"> 
-          <div class="promo-inner">
-            <video 
-              id="mainVideo" 
-              src="assets/RynnBrain1.1-intro.mov"
-              controls 
-              playsinline
-              preload="metadata">
-            </video>
-          </div>
-        </div>
-
-      </div>
-    </section>
+      <div class="authors"><span class="a">XXX</span></div>
+      <div class="aff">XXX</div>
+      <div class="panel template-media template-hero-media">XXX</div>
     </div>
   </header>
 
   <main class="container">
-    <!-- Abstract -->
     <section>
-      <h2 class="h2">Abstract</h2>
-      <div class="panel abstract">
-    <p>
-      We present <strong>RynnBrain 1.1</strong>, a family of embodied foundation models spanning <strong>2B, 9B, and 122B (A10B)</strong> scales. Built on a unified spatio-temporal and physically grounded training framework, RynnBrain 1.1 demonstrates consistent gains in embodied cognition, spatial reasoning, and localization as model capacity increases. The 2B and 9B models further incorporate explicit 3D grounding supervision and contact-point prediction, enabling native language-conditioned understanding of physical space. We also develop <strong>RynnBrain-VLA</strong> with a unified action space and embodiment-specific masking, allowing heterogeneous robot data to be jointly trained within a single policy. RynnBrain-VLA is deployed on a Unitree G1 humanoid, an Astribot bimanual robot, and a Tianji-Wuji dexterous-hand system. Real-robot experiments show that embodied pretraining provides a stronger foundation than a general-purpose VLM, while joint multi-task and multi-embodiment training further improves manipulation performance.
-    </p>
-  </div>
+      <h2 class="h2">XXX</h2>
+      <div class="panel abstract"><p>XXX</p></div>
     </section>
 
-    <!-- RynnBrain 1.1: scaling + model results in a four-card grid -->
     <section class="content-section">
-      <h2 class="h2">RynnBrain 1.1 Results</h2>
-      <div class="section-copy">
-        <p>RynnBrain 1.1 is evaluated at 2B, 9B, and 122B-A10B scales under one unified embodied training recipe. Performance rises consistently across general cognition, reasoning-intensive cognition, and embodied localization.</p>
-        <p>The four panels keep the scaling trend and all model-level comparisons together. Click any panel to inspect the full-resolution table.</p>
-      </div>
-
-      <div class="panel section-panel">
-        <div class="results-grid">
-          <figure class="result-card">
-            <div class="media">
-              <img src="assets/scaling-analysis.png" alt="RynnBrain 1.1 scaling analysis" loading="lazy" onclick="openLightbox(this)">
-            </div>
-            <figcaption class="figure-caption">Scaling Analysis</figcaption>
-          </figure>
-
-          <figure class="result-card">
-            <div class="media">
-              <img src="assets/2B-results.png" alt="RynnBrain 1.1 2B benchmark results" loading="lazy" onclick="openLightbox(this)">
-            </div>
-            <figcaption class="figure-caption">RynnBrain 1.1-2B</figcaption>
-          </figure>
-
-          <figure class="result-card">
-            <div class="media">
-              <img src="assets/9B-results.png" alt="RynnBrain 1.1 9B benchmark results" loading="lazy" onclick="openLightbox(this)">
-            </div>
-            <figcaption class="figure-caption">RynnBrain 1.1-9B</figcaption>
-          </figure>
-
-          <figure class="result-card">
-            <div class="media">
-              <img src="assets/122B-results.png" alt="RynnBrain 1.1 122B-A10B benchmark results" loading="lazy" onclick="openLightbox(this)">
-            </div>
-            <figcaption class="figure-caption">RynnBrain 1.1-122B-A10B</figcaption>
-          </figure>
-        </div>
+      <h2 class="h2">XXX</h2>
+      <div class="template-copy" aria-hidden="true"><span></span><span></span><span></span></div>
+      <div class="results-grid">
+        <figure class="result-card"><div class="media"><div class="template-media">XXX</div></div><figcaption class="figure-caption">XXX</figcaption></figure>
+        <figure class="result-card"><div class="media"><div class="template-media">XXX</div></div><figcaption class="figure-caption">XXX</figcaption></figure>
+        <figure class="result-card"><div class="media"><div class="template-media">XXX</div></div><figcaption class="figure-caption">XXX</figcaption></figure>
+        <figure class="result-card"><div class="media"><div class="template-media">XXX</div></div><figcaption class="figure-caption">XXX</figcaption></figure>
       </div>
     </section>
 
     <section class="content-section">
-      <h2 class="h2">3D Grounding</h2>
-      <div class="section-copy">
-        <p>Explicit 3D supervision gives the compact models native language-conditioned 3D grounding. RynnBrain 1.1-9B reaches 41.12 AP@15 on SUN RGB-D and 23.44 AP3D on WildDet3D-Bench.</p>
-        <p>The gains from 2B to 9B show that metric depth, object size, orientation, and open-vocabulary spatial grounding all benefit from model scaling.</p>
-      </div>
+      <h2 class="h2">XXX</h2>
+      <div class="template-copy" aria-hidden="true"><span></span><span></span><span></span></div>
       <div class="grounding-stack">
-        <figure class="figure-card">
-          <img src="assets/3d-grounding-results.png" alt="RynnBrain 1.1 3D grounding results" loading="lazy" onclick="openLightbox(this)">
-          <figcaption class="figure-caption">Quantitative results of RynnBrain 1.1-2B and 9B on SUN RGB-D and WildDet3D-Bench.</figcaption>
-        </figure>
-        <figure class="figure-card">
-          <img src="assets/3d-cases.png" alt="RynnBrain 1.1 language-conditioned 3D grounding cases for a bed, table, and chair" loading="lazy" onclick="openLightbox(this)">
-          <figcaption class="figure-caption">Qualitative language-conditioned 3D box predictions across diverse indoor scenes.</figcaption>
-        </figure>
+        <figure class="figure-card"><div class="template-media ratio-wide">XXX</div><figcaption class="figure-caption">XXX</figcaption></figure>
+        <figure class="figure-card"><div class="template-media ratio-ultrawide">XXX</div><figcaption class="figure-caption">XXX</figcaption></figure>
       </div>
     </section>
 
     <section class="content-section">
-      <h2 class="h2">Contact Point Prediction</h2>
-      <div class="section-copy">
-        <p>Instead of predicting only an object center, RynnBrain 1.1 identifies an action-relevant contact point together with its in-plane grasp orientation. The model adapts to object geometry, state, target part, and the user instruction.</p>
-        <p>These examples cover thin objects, containers, overturned objects, and cluttered scenes; both visual groups remain side by side for direct comparison.</p>
-      </div>
+      <h2 class="h2">XXX</h2>
+      <div class="template-copy" aria-hidden="true"><span></span><span></span><span></span></div>
       <div class="contact-grid">
-        <figure class="figure-card">
-          <img src="assets/contactpoint1.gif" alt="Contact point prediction examples: objects and grasp orientations" loading="lazy" onclick="openLightbox(this)">
-        </figure>
-        <figure class="figure-card">
-          <img src="assets/contactpoint2.gif" alt="Contact point prediction examples: object states and cluttered scenes" loading="lazy" onclick="openLightbox(this)">
-        </figure>
+        <figure class="figure-card"><div class="template-media ratio-16-9">XXX</div></figure>
+        <figure class="figure-card"><div class="template-media ratio-16-9">XXX</div></figure>
       </div>
     </section>
 
     <section class="content-section">
-      <h2 class="h2">Architecture</h2>
-      <div class="section-copy">
-        <p>RynnBrain 1.1 connects omni-vision perception, language instructions, spatial grounding, physical-world reasoning, and action planning in a unified model family. The same high-level capability definition is shared by the 2B, 9B, and 122B-A10B variants.</p>
-        <p>For physical execution, RynnBrain-VLA adds flow-matching action generation and a unified 81-dimensional action space that can be selectively activated for different robot embodiments.</p>
-      </div>
-
+      <h2 class="h2">XXX</h2>
+      <div class="template-copy" aria-hidden="true"><span></span><span></span><span></span></div>
       <div class="architecture-stack">
         <article class="architecture-card">
-          <div class="architecture-card-header">
-            <div>
-              <span class="eyebrow">Foundation model · Figure 1</span>
-              <h3>Unified embodied perception and reasoning</h3>
-            </div>
-            <p>A shared Dense/MoE decoder consumes single-view images, multi-view observations, videos, and instructions. It produces aligned text, regions, trajectories, pointing, 3D perception, and contact signals for four core capability groups.</p>
-          </div>
-          <div class="architecture-media">
-            <img src="assets/model-architecture.png" alt="RynnBrain 1.1 foundation model architecture" loading="lazy" onclick="openLightbox(this)">
-          </div>
+          <div class="architecture-card-header"><div><span class="eyebrow">XXX</span><h3>XXX</h3></div><p>XXX</p></div>
+          <div class="architecture-media"><div class="template-media ratio-wide">XXX</div></div>
         </article>
-
         <article class="architecture-card vla-card">
-          <div class="architecture-card-header">
-            <div>
-              <span class="eyebrow">Vision-language-action policy</span>
-              <h3>One policy interface for heterogeneous robots</h3>
-            </div>
-            <p>RynnBrain acts as the visual-language backbone while a denoising head predicts action chunks. Embodiment-specific masks activate compatible arm, gripper, hand, torso, and head dimensions without forcing incompatible controllers to share the same low-level action format.</p>
-          </div>
-          <div class="architecture-media">
-            <img src="assets/vla-architecture.png" alt="RynnBrain-VLA architecture and unified action space" loading="lazy" onclick="openLightbox(this)">
-          </div>
+          <div class="architecture-card-header"><div><span class="eyebrow">XXX</span><h3>XXX</h3></div><p>XXX</p></div>
+          <div class="architecture-media"><div class="template-media ratio-wide">XXX</div></div>
         </article>
       </div>
     </section>
-
-    <div class="lightbox" id="lightbox" onclick="closeLightbox()">
-      <img id="lightbox-img" src="" alt="Fullscreen">
-    </div>
 
     <section class="content-section">
-      <h2 class="h2">Real-Robot Results</h2>
-      <div class="section-copy">
-        <p>RynnBrain-VLA is deployed on Unitree G1, Astribot, and Tianji-Wuji to test whole-body, bimanual, and dexterous manipulation in the physical world. The evaluation spans furniture interaction, food preparation, table service, and other long-horizon tasks.</p>
-        <p>Each task is evaluated over 20 randomized trials with both process quality and final success recorded. Cross-embodiment metrics and the controlled comparison are summarized first, followed by a compact overview of all real-robot tasks.</p>
-      </div>
-
+      <h2 class="h2">XXX</h2>
+      <div class="template-copy" aria-hidden="true"><span></span><span></span><span></span></div>
       <div class="real-analysis-grid">
         <aside class="real-insight-card">
-          <div class="real-insight-copy">
-            <span class="eyebrow">Cross-embodiment evaluation</span>
-            <h3>Stable execution across three robot platforms</h3>
-            <p>A single embodied foundation model supports distinct body structures and action spaces while retaining strong long-horizon process quality and task completion.</p>
-          </div>
-          <div class="metric-grid" aria-label="Real-robot evaluation highlights">
-            <div class="metric"><strong>3</strong><span>Robot platforms</span></div>
-            <div class="metric"><strong>20</strong><span>Trials per task</span></div>
-            <div class="metric"><strong>94.74%</strong><span>Generalist process score</span></div>
-            <div class="metric"><strong>91.67%</strong><span>Generalist success rate</span></div>
+          <div class="real-insight-copy"><span class="eyebrow">XXX</span><h3>XXX</h3><p>XXX</p></div>
+          <div class="metric-grid" aria-label="XXX">
+            <div class="metric"><strong>XXX</strong><span>XXX</span></div>
+            <div class="metric"><strong>XXX</strong><span>XXX</span></div>
+            <div class="metric"><strong>XXX</strong><span>XXX</span></div>
+            <div class="metric"><strong>XXX</strong><span>XXX</span></div>
           </div>
         </aside>
-
         <article class="real-table-card">
-          <div class="real-table-header">
-            <div>
-              <span class="eyebrow">Controlled comparison</span>
-              <h3>Embodied pretraining strengthens the VLA policy</h3>
-            </div>
-            <p>With the same demonstrations and post-training setup, RynnBrain-VLA outperforms the Qwen VLA baseline. Joint training across embodiments further improves average process quality and final task success.</p>
-          </div>
-          <div class="real-table-media">
-            <img src="assets/real-robo-results-compare.png" alt="RynnBrain-VLA quantitative comparison on real robots" loading="lazy" onclick="openLightbox(this)">
-          </div>
+          <div class="real-table-header"><div><span class="eyebrow">XXX</span><h3>XXX</h3></div><p>XXX</p></div>
+          <div class="real-table-media"><div class="template-media ratio-wide">XXX</div></div>
         </article>
       </div>
-
       <div class="real-overview-layout">
-        <figure class="figure-card real-overview-card">
-          <img src="assets/real-robot-results.png" alt="RynnBrain-VLA results across all real-robot tasks" loading="lazy" onclick="openLightbox(this)">
-          <figcaption class="figure-caption">Nine real-world tasks across three heterogeneous robot platforms.</figcaption>
-        </figure>
+        <figure class="figure-card real-overview-card"><div class="template-media ratio-wide">XXX</div><figcaption class="figure-caption">XXX</figcaption></figure>
       </div>
     </section>
 
-    <!-- BibTeX -->
     <section>
-      <h2 class="h2">BibTeX</h2>
-      <div class="panel bib-wrap">
-        <div class="bib-head">
-          <button class="copy-btn" id="copyBib" type="button">
-            <i class="fa-regular fa-copy"></i> Copy
-          </button>
-          <span id="copyHint" style="color:var(--muted); font-weight:750;"></span>
-        </div>
-
-       <pre id="bibtexBlock"><code>@article{rynnbrain2026,
-  title   = {RynnBrain 1.1: Towards More Capable and Generalizable Embodied Foundation Model},
-  author  = {Ronghao Dang and Jiayan Guo and Bohan Hou and Sicong Leng and Kehan Li and Xin Li and Jiangping Liu and Yunxuan Mao and Zhikai Wang and Yuqian Yuan and Minghao Zhu and Xiao Lin and Yang Bai and Qian Jiang and Yaxi Zhao and Minghua Zeng and Junlong Gao and Yuming Jiang and Jun Cen and Siteng Huang and Liuyi Wang and Wenqiao Zhang and Chengju Liu and Jianfei Yang and Shijian Lu and Deli Zhao},
-  year    = {2026}
-}</code></pre>
-      </div>
+      <h2 class="h2">XXX</h2>
+      <div class="panel bib-wrap"><div class="template-media">XXX</div></div>
     </section>
 
-    <div class="footer">
-      © <span id="year"></span> RynnBrain Team, DAMO Academy, Alibaba Group
-    </div>
+    <div class="footer">XXX</div>
   </main>
 
   <script>
-    /* =========================
-       1. 图片灯箱 (Lightbox) 逻辑
-    ========================= */
-    const lightbox = document.getElementById('lightbox');
-    const lightboxImg = document.getElementById('lightbox-img');
-
-    function openLightbox(imgElement) {
-      if(lightbox && lightboxImg) {
-        lightboxImg.src = imgElement.src;
-        lightbox.classList.add('active');
-      }
-    }
-
-    function closeLightbox() {
-      if(lightbox) lightbox.classList.remove('active');
-    }
-    
-    if(lightbox) {
-      // 点击背景关闭
-      lightbox.addEventListener('click', (e) => {
-        if (e.target === lightbox) closeLightbox();
-      });
-      // 按 ESC 关闭
-      document.addEventListener('keydown', (e) => {
-        if (e.key === "Escape") closeLightbox();
-      });
-    }
-
-    /* =========================
-       2. 主题切换逻辑
-    ========================= */
     const THEME_KEY = "theme";
     const htmlEl = document.documentElement;
     const themeHint = document.getElementById("themeHint");
     const themeBtn = document.getElementById("toggleTheme");
-
-    function applyTheme(mode){
-      if(mode === "auto"){
+    function applyTheme(mode) {
+      if (mode === "auto") {
         htmlEl.removeAttribute("data-theme");
-        if(themeHint) themeHint.textContent = "Auto";
-      }else{
+        themeHint.textContent = "Auto";
+      } else {
         htmlEl.setAttribute("data-theme", mode);
-        if(themeHint) themeHint.textContent = mode === "dark" ? "Night" : "Light";
+        themeHint.textContent = mode === "dark" ? "Night" : "Light";
       }
     }
-
-    function getNextTheme(cur){
-      if(cur === "auto") return "dark";
-      if(cur === "dark") return "light";
+    function getNextTheme(cur) {
+      if (cur === "auto") return "dark";
+      if (cur === "dark") return "light";
       return "auto";
     }
-
-    // 初始化
-    const savedTheme = localStorage.getItem(THEME_KEY) || "auto";
-    applyTheme(savedTheme);
-
-    if(themeBtn){
-      themeBtn.addEventListener("click", () => {
-        const cur = localStorage.getItem(THEME_KEY) || "auto";
-        const next = getNextTheme(cur);
-        localStorage.setItem(THEME_KEY, next);
-        applyTheme(next);
-      });
-    }
-
-    /* =========================
-       4. BibTeX 复制功能
-    ========================= */
-    const yearSpan = document.getElementById("year");
-    if(yearSpan) yearSpan.textContent = new Date().getFullYear();
-
-    const copyBtn = document.getElementById("copyBib");
-    const bibBlock = document.getElementById("bibtexBlock");
-    const copyHint = document.getElementById("copyHint");
-
-    if(copyBtn && bibBlock){
-      copyBtn.addEventListener("click", async () => {
-        const text = bibBlock.innerText.trim();
-        try{
-          await navigator.clipboard.writeText(text);
-          if(copyHint) copyHint.textContent = "Copied!";
-          setTimeout(() => { if(copyHint) copyHint.textContent=""; }, 1500);
-        }catch(e){
-          console.error("Copy failed", e);
-        }
-      });
-    }
-
+    applyTheme(localStorage.getItem(THEME_KEY) || "auto");
+    themeBtn.addEventListener("click", () => {
+      const next = getNextTheme(localStorage.getItem(THEME_KEY) || "auto");
+      localStorage.setItem(THEME_KEY, next);
+      applyTheme(next);
+    });
   </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
