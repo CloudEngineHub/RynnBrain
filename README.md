@@ -6,9 +6,7 @@
 <p align="center"><i>Towards More Capable and Generalizable Embodied Foundation Models</i></p>
 
 <p align="center">
-       💫 <a href="https://alibaba-damo-academy.github.io/RynnBrain/"><b>Project Page</b></a> &nbsp;&nbsp;|&nbsp;&nbsp; 🤗 <a href="https://huggingface.co/collections/Alibaba-DAMO-Academy/rynnbrain-11"><b>Hugging Face</b></a> &nbsp;&nbsp;|&nbsp;&nbsp; 🤖 <a href="https://modelscope.cn/collections/DAMO_Academy/RynnBrain-11"><b>ModelScope</b></a>
-<br>
-       🚀 <a href="https://huggingface.co/spaces/Alibaba-DAMO-Academy/RynnBrain"><b>Demo</b></a> &nbsp;&nbsp;|&nbsp;&nbsp; 📚 <a href="https://github.com/alibaba-damo-academy/RynnBrain/tree/main/cookbooks"><b>Cookbooks</b></a> &nbsp;&nbsp;|&nbsp;&nbsp; 📄 <a href="https://arxiv.org/abs/2602.14979"><b>arXiv</b></a>
+       💫 <a href="https://alibaba-damo-academy.github.io/RynnBrain/"><b>Project Page</b></a> &nbsp;&nbsp;|&nbsp;&nbsp; 🤗 <a href="https://huggingface.co/collections/Alibaba-DAMO-Academy/rynnbrain-11"><b>Hugging Face</b></a> &nbsp;&nbsp;|&nbsp;&nbsp; 🤖 <a href="https://modelscope.cn/collections/DAMO_Academy/RynnBrain-11"><b>ModelScope</b></a> &nbsp;&nbsp;|&nbsp;&nbsp; 📚 <a href="https://github.com/alibaba-damo-academy/RynnBrain/tree/main/cookbooks"><b>Cookbooks</b></a> &nbsp;&nbsp;|&nbsp;&nbsp; 📄 <a href="https://arxiv.org/abs/2602.14979"><b>arXiv</b></a>
 </p>
 
 
@@ -268,16 +266,16 @@ Please refer to [RynnScale](https://github.com/alibaba-damo-academy/RynnScale/tr
 
 **Finetuning**
 
-- [Reasoning](reasoning): An **interleaved reasoning approach that fuses spatial grounding with textual cues** directly over egocentric video streams, bridging the gap between language and the physical world to keep reasoning firmly grounded in reality.
+- [Reasoning](https://github.com/alibaba-damo-academy/RynnBrain/tree/rynnbrain1.0/reasoning): An **interleaved reasoning approach that fuses spatial grounding with textual cues** directly over egocentric video streams, bridging the gap between language and the physical world to keep reasoning firmly grounded in reality.
 
-- [Navigation](navigation): A vision-language navigation model fine-tuned on the RynnBrain base model. Empirically, fine-tuning on RynnBrain yields consistently stronger navigation performance than fine-tuning on other foundation models.
+- [Navigation](https://github.com/alibaba-damo-academy/RynnBrain/tree/rynnbrain1.0/navigation): A vision-language navigation model fine-tuned on the RynnBrain base model. Empirically, fine-tuning on RynnBrain yields consistently stronger navigation performance than fine-tuning on other foundation models.
 
-- [Planning](planning): RynnBrain **embeds the locations of affordances, areas, and objects directly into its planning outputs**, allowing even highly intricate, fine-grained tasks to be handled within our hierarchical RynnBrain-VLA system.
+- [Planning](https://github.com/alibaba-damo-academy/RynnBrain/tree/rynnbrain1.0/planning): RynnBrain **embeds the locations of affordances, areas, and objects directly into its planning outputs**, allowing even highly intricate, fine-grained tasks to be handled within our hierarchical RynnBrain-VLA system.
 
 **RynnBrain-Bench**
 
 **RynnBrain-Bench** is a high-dimensional benchmark for embodied understanding, evaluating models across four key dimensions—*object cognition*, *spatial cognition*, *grounding*, and *pointing*—with an emphasis on fine-grained understanding and spatio-temporal localization over episodic video sequences.
-For details, please refer to [RynnBrain-Bench](./rynnbrain-bench/README.md).
+For details, please refer to [RynnBrain-Bench](https://huggingface.co/datasets/Alibaba-DAMO-Academy/RynnBrain-Bench).
 
 <p align="center">
 <img src="./cookbooks/assets/RynnBrain-Bench.png" style="width: 80%; height: auto;">
