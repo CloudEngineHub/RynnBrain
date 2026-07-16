@@ -12,7 +12,7 @@
 
 ## News
 * **[2026.07.16]**  ✨✨ Release **RynnBrain 1.1** checkpoints (**2B / 9B / 122B-A10B**) on <a href="https://huggingface.co/collections/Alibaba-DAMO-Academy/rynnbrain-11">Hugging Face</a> & <a href="https://modelscope.cn/collections/DAMO_Academy/RynnBrain-11">ModelScope</a>!
-* **[2026.07.16]**  ✨✨ Release the **RynnBrain 1.1** Technical Report on <a href="https://arxiv.org/abs/2602.14979v1">arXiv</a>!
+* **[2026.07.16]**  ✨✨ Release the **RynnBrain 1.1** Technical Report on <a href="https://raw.githubusercontent.com/alibaba-damo-academy/RynnBrain.github.io/main/assets1.1/RynnBrain_1_1.pdf">paper</a>!
 
 
 
