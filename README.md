@@ -6,8 +6,8 @@
 <p align="center"><i>Towards More Capable and Generalizable Embodied Foundation Models</i></p>
 
 <p align="center">
-       💫 <a href="https://alibaba-damo-academy.github.io/RynnBrain/"><b>Project Page</b></a> &nbsp;&nbsp;|&nbsp;&nbsp; 🤗 <a href="https://huggingface.co/collections/Alibaba-DAMO-Academy/rynnbrain-11"><b>Hugging Face</b></a> &nbsp;&nbsp;|&nbsp;&nbsp; 🤖 <a href="https://modelscope.cn/collections/DAMO_Academy/RynnBrain-11"><b>ModelScope</b></a> &nbsp;&nbsp;|&nbsp;&nbsp; 📚 <a href="https://github.com/alibaba-damo-academy/RynnBrain/tree/main/cookbooks"><b>Cookbooks</b></a> &nbsp;&nbsp;|&nbsp;&nbsp; 📄 <a href="https://arxiv.org/abs/2602.14979"><b>arXiv</b></a>
-</p>
+       💫 <a href="https://alibaba-damo-academy.github.io/RynnBrain/"><b>Project Page</b></a> &nbsp;&nbsp;|&nbsp;&nbsp; 🤗 <a href="https://huggingface.co/collections/Alibaba-DAMO-Academy/rynnbrain-11"><b>Hugging Face</b></a> &nbsp;&nbsp;|&nbsp;&nbsp; 🤖 <a href="https://modelscope.cn/collections/DAMO_Academy/RynnBrain-11"><b>ModelScope</b></a> &nbsp;&nbsp;|&nbsp;&nbsp; 📚 <a href="https://github.com/alibaba-damo-academy/RynnBrain/tree/main/cookbooks"><b>Cookbooks</b></a> &nbsp;&nbsp;|&nbsp;&nbsp; 📄 <a href="https://arxiv.org/abs/2602.14979"><b>RynnBrain1.0 arXiv</b></a>
+ &nbsp;&nbsp;|&nbsp;&nbsp; 📄 <a href="https://raw.githubusercontent.com/alibaba-damo-academy/RynnBrain.github.io/main/assets1.1/RynnBrain_1_1.pdf"> <b>RynnBrain1.1 paper</b></a> </p> 
 
 
 ## News
