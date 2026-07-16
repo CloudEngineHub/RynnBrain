@@ -12,8 +12,11 @@
 
 ## News
 * **[2026.07.16]**  ✨✨ Release **RynnBrain 1.1** checkpoints (**2B / 9B / 122B-A10B**) on <a href="https://huggingface.co/collections/Alibaba-DAMO-Academy/rynnbrain-11">Hugging Face</a> & <a href="https://modelscope.cn/collections/DAMO_Academy/RynnBrain-11">ModelScope</a>!
-* **[2026.07.16]**  ✨✨ Release the **RynnBrain 1.1** Technical Report on <a href="https://raw.githubusercontent.com/alibaba-damo-academy/RynnBrain.github.io/main/assets1.1/RynnBrain_1_1.pdf">paper</a>!
-
+* **[2026.07.16]**  ✨✨ Release **RynnBrain 1.1** <a href="https://raw.githubusercontent.com/alibaba-damo-academy/RynnBrain.github.io/main/assets1.1/RynnBrain_1_1.pdf">Technical Report</a> !
+* **[2026.07.16]**  ✨✨ Release **RynnBrain 1.1**! To access the resources of **RynnBrain 1.0**, please checkout to the <a href="https://github.com/alibaba-damo-academy/RynnBrain/tree/rynnbrain1.0">rynnbrain1.0</a> branch.
+* **[2026.04.13]**  🔥🔥 Launch <a href="https://huggingface.co/Alibaba-DAMO-Academy/RynnBrain-4B">RynnBrain-4B </a> !!
+* **[2026.02.17]**  🔥🔥 Release **RynnBrain 1.0** <a href="https://arxiv.org/abs/2602.14979v1">Technical Report</a> !!
+* **[2026.02.09]**  🔥🔥 Release code and model checkpoints of **RynnBrain 1.0**!!
 
 
 
@@ -337,7 +340,7 @@ If you find RynnBrain useful for your research and applications, please cite usi
 
 ## Acknowledgement
 
-Our RynnBrain is built on top of [**Qwen3-VL**](https://github.com/QwenLM/Qwen3-VL). We also learned a lot from the implementation of [**RynnEC**](https://github.com/alibaba-damo-academy/RynnEC) and [**VideoRefer**](https://github.com/DAMO-NLP-SG/VideoRefer). If your work is used in RynnBrain but not mentioned in either this repo or the technical report, feel free to let us know :heart:.
+Our RynnBrain is built on top of [**Qwen3-VL**](https://github.com/QwenLM/Qwen3-VL) and [**Qwen3.5**](https://github.com/QwenLM/Qwen3.6). We also learned a lot from the implementation of [**pi 0.5**](https://github.com/Physical-Intelligence/openpi) and [**RTC**](https://www.pi.website/research/real_time_chunking). If your work is used in RynnBrain but not mentioned in either this repo or the technical report, feel free to let us know :heart:.
 
 ## License
 
