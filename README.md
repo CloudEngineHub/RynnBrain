@@ -26,10 +26,11 @@
 ## What's New in 1.1 🚀
 * **Unified Embodied Scaling to 122B**: 
 Establishes the first embodied brain model at the 122B scale under a unified training recipe shared across 2B, 9B, and 122B-A10B, enabling a systematic study of how embodied cognition, spatial reasoning, grounding, and planning evolve with scale.
-* **Real-robot VLA transfer**: 
-Bridges perception and action through RynnBrain-VLA, translating embodied understanding into real-robot control and demonstrating strong cross-platform generalization on Unitree G1, Astribot, and Tianji-Wuji across humanoid, bimanual, and dexterous-hand tasks.
 * **Native 3D and contact point grounding**: 
 Introduces explicit 3D-grounded training and a new contact point prediction task, extending RynnBrain from image-plane localization to metric 3D understanding and action-relevant interaction grounding.
+* **Real-robot VLA transfer**: 
+Bridges perception and action through RynnBrain-VLA, translating embodied understanding into real-robot control and demonstrating strong cross-platform generalization on Unitree G1, Astribot, and Tianji-Wuji across humanoid, bimanual, and dexterous-hand tasks.
+
 
 <!-- <p align="center">
 <img src="./cookbooks/assets/intro.png" style="width: 90%; height: auto;">
