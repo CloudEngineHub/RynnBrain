@@ -300,6 +300,13 @@ If you find RynnBrain useful for your research and applications, please cite usi
   url = {https://arxiv.org/abs/2602.14979v1}
 }
 
+@article{damo2026rynnbrain11,
+  title={RynnBrain 1.1: Towards More Capable and Generalizable Embodied Foundation Model},
+  author={Kehan Li, Bohan Hou, Minghao Zhu, Tianyi Zhang, Zesen Cheng, Zhikai Wang, Sicong Leng, Xin Li, Xiao Lin, Biying Yao, Minghua Zeng, Jiangpin Liu, Ronghao Dang, Jiayan Guo, Siteng Huang, Haoyu Zhao, Heng Ping, Yaxi Zhao, Kexiang Wang, Tong Lu, Shengke Xue, Jiahao Tang, Yulei Wang, Zejing Wang, Jianwei Gao, Shijian Lu, Chengju Liu, Jianfei Yang, Mingxiu Chen, Deli Zhao},
+  journal={arXiv preprint arXiv:2607.17977},
+  year={2026},
+  url = {https://arxiv.org/abs/2607.17977}
+}
 ```
 
 <details open><summary>💡 Some other multimodal-LLM projects from our team may interest you ✨. </summary><p>
