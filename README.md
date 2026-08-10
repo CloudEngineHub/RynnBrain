@@ -223,6 +223,7 @@ def main():
     prompt = processor.apply_chat_template(
         conversation,
         add_generation_prompt=True,
+        enable_thinking=False,
         tokenize=False,
     )
 
@@ -261,6 +262,8 @@ Check out the [cookbooks](./cookbooks) that showcase RynnBrain's capabilities in
 **Pretraining & Evaluation** 
 
 Please refer to [RynnScale](https://github.com/alibaba-damo-academy/RynnScale/tree/main/projects/rynn_brain) for details of pretraining and evaluation.
+
+Note that thinking mode is disabled by default for all benchmarks, unless otherwise specified.
 
 
 
